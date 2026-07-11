@@ -158,10 +158,21 @@ const formatarMoeda = v => v.toLocaleString('pt-BR',{style:'currency',currency:'
 const calcularTotal = (qtd, oferta, taxa) => (qtd * PRECO_FIXO) + parseFloat(oferta||0) + parseFloat(taxa||0);
 
 async function init(){
-  CONFIG = await api.buscar('config') || CONFIG;
+  let configDoFirebase = await api.buscar('config');
+  
+  // Se não tiver nada no Firebase, usa as senhas padrão
+  if(!configDoFirebase || Object.keys(configDoFirebase).length === 0){
+    CONFIG = {chave:'', nome:'', cidade:'', conferente:'', senhaMaster:'admin123', senhaVenda:'1234', senhaEntrega:'1234', senhaFinanceiro:'1234', senhaConfig:'1234', sabores: {Tradicional:true, Brigadeiro:true, Ninho:true, Oreo:true}};
+    await api.salvar('config', CONFIG); // já salva pra não perder
+  } else {
+    CONFIG = configDoFirebase;
+  }
+
   if(!CONFIG.sabores) CONFIG.sabores = {Tradicional:true, Brigadeiro:true, Ninho:true, Oreo:true};
+  
   if(isCliente){ $('admin-app').classList.add('hidden'); montarStorefront(); }
   else { $('admin-app').classList.remove('hidden'); renderAdmin(); }
+  
   api.escutar('vendas', (dados)=>{VENDAS = dados || []; if(!isCliente){renderAdmin();}});
   $('loading').classList.add('hidden');
 }
@@ -202,13 +213,27 @@ function atualizarTotalAdmin(){ const total = calcularTotal($('f-qtd').value, $(
 
 $('btn-desbloquear-aba').onclick = ()=>{
   const senhaDigitada = $('input-senha-aba').value;
-  let senhaCorreta = CONFIG['senha' + abaAtualDesbloqueada.charAt(0).toUpperCase() + abaAtualDesbloqueada.slice(1)];
+
+  // Mapeia o nome da aba pro nome da senha no CONFIG
+  const mapaSenhas = {
+    venda: 'senhaVenda',
+    entregas: 'senhaEntrega',
+    financeiro: 'senhaFinanceiro',
+    config: 'senhaConfig'
+  };
+
+  let chaveSenha = mapaSenhas[abaAtualDesbloqueada];
+  let senhaCorreta = CONFIG[chaveSenha];
+
   if(senhaDigitada === senhaCorreta || senhaDigitada === CONFIG.senhaMaster){
     $(`tab-${abaAtualDesbloqueada}`).classList.remove('tab-locked');
     $('lock-screen').classList.add('hidden');
     $(`tab-${abaAtualDesbloqueada}`).classList.remove('hidden');
     $('erro-senha-aba').classList.add('hidden');
-  } else { $('erro-senha-aba').classList.remove('hidden'); }
+    $('input-senha-aba').value = ''; // limpa o campo
+  } else {
+    $('erro-senha-aba').classList.remove('hidden');
+  }
 };
 
 $('btn-salvar-config').onclick = async ()=>{
