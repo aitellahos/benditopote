@@ -25,7 +25,6 @@
 .nav-section-title {font-size: 10px; color: white; opacity: 0.7; padding: 8px 12px 0 12px; font-weight: 700; letter-spacing: 0.5px;}
 .lock-screen { background: rgba(109,40,217,0.1); border: 2px dashed var(--lilac); }
 .extra-fee { background: var(--gold); color: white; font-size: 10px; padding: 2px 6px; border-radius: 999px; margin-left: 6px;}
-.tab-locked {opacity: 0.5; pointer-events: none;}
 .sabor-item { display: flex; align-items: center; justify-content: space-between; padding: 10px; background: var(--lilac-light); border-radius: 12px; margin-bottom: 8px; }
 .sabor-toggle { font-size: 24px; cursor: pointer; transition: all 0.2s; }
 .sabor-toggle.off { opacity: 0.3; filter: grayscale(1); }
@@ -147,7 +146,7 @@ import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/fir
 const firebaseConfig = {apiKey:"AIzaSyAlQgewd8DOP4mrKsbnsp0bRu4z-Hp6nfQ",authDomain:"bendito-pote.firebaseapp.com",databaseURL:"https://bendito-pote-default-rtdb.firebaseio.com",projectId:"bendito-pote",storageBucket:"bendito-pote.firebasestorage.app",messagingSenderId:"584946962173",appId:"1:584946962173:web:c7cd9dcbcb0ca71098b894"};
 const app = initializeApp(firebaseConfig); const db = getDatabase(app);
 
-const api = {async salvar(tipo, dados){ await set(ref(db, tipo), dados); },async buscar(tipo){ const snap = await get(ref(db, tipo)); return snap.exists()? snap.val() : []; },escutar(tipo, callback){ onValue(ref(db, tipo), (snap)=>callback(snap.exists()? snap.val() : [])); }};
+const api = {async salvar(tipo, dados){ await set(ref(db, tipo), dados); },async buscar(tipo){ const snap = await get(ref(db, tipo)); return snap.exists()? snap.val() : null; },escutar(tipo, callback){ onValue(ref(db, tipo), (snap)=>callback(snap.exists()? snap.val() : [])); }};
 
 let CONFIG = {chave:'', nome:'', cidade:'', conferente:'', senhaMaster:'admin123', senhaVenda:'1234', senhaEntrega:'1234', senhaFinanceiro:'1234', senhaConfig:'1234', sabores: {Tradicional:true, Brigadeiro:true, Ninho:true, Oreo:true}};
 let VENDAS = []; let PEDIDO_ATUAL = null; const PRECO_FIXO = 15.00; let abaAtualDesbloqueada = null;
@@ -159,33 +158,31 @@ const calcularTotal = (qtd, oferta, taxa) => (qtd * PRECO_FIXO) + parseFloat(ofe
 
 async function init(){
   let configDoFirebase = await api.buscar('config');
-  
-  // Se não tiver nada no Firebase, usa as senhas padrão
-  if(!configDoFirebase || Object.keys(configDoFirebase).length === 0){
-    CONFIG = {chave:'', nome:'', cidade:'', conferente:'', senhaMaster:'admin123', senhaVenda:'1234', senhaEntrega:'1234', senhaFinanceiro:'1234', senhaConfig:'1234', sabores: {Tradicional:true, Brigadeiro:true, Ninho:true, Oreo:true}};
-    await api.salvar('config', CONFIG); // já salva pra não perder
+
+  if(!configDoFirebase){
+    await api.salvar('config', CONFIG);
   } else {
-    CONFIG = configDoFirebase;
+    CONFIG = {...CONFIG,...configDoFirebase};
   }
 
   if(!CONFIG.sabores) CONFIG.sabores = {Tradicional:true, Brigadeiro:true, Ninho:true, Oreo:true};
-  
+
   if(isCliente){ $('admin-app').classList.add('hidden'); montarStorefront(); }
   else { $('admin-app').classList.remove('hidden'); renderAdmin(); }
-  
+
   api.escutar('vendas', (dados)=>{VENDAS = dados || []; if(!isCliente){renderAdmin();}});
   $('loading').classList.add('hidden');
 }
 
 function renderSaboresSelect(selectId){
-  const select = $(selectId); select.innerHTML = '';
+  const select = $(selectId); if(!select) return; select.innerHTML = '';
   for(const [sabor, ativo] of Object.entries(CONFIG.sabores)){
     if(ativo){ select.innerHTML += `<option value="${sabor}">Sabor: ${sabor}</option>`; }
   }
 }
 
 function renderSaboresConfig(){
-  const wrap = $('lista-sabores-config'); wrap.innerHTML = '';
+  const wrap = $('lista-sabores-config'); if(!wrap) return; wrap.innerHTML = '';
   for(const [sabor, ativo] of Object.entries(CONFIG.sabores)){
     wrap.innerHTML += `<div class="sabor-item"><span class="sabor-nome">🍰 ${sabor}</span><span class="sabor-toggle ${ativo? '' : 'off'}" data-sabor="${sabor}">🍰</span></div>`;
   }
@@ -209,31 +206,20 @@ window.marcarStatus = async (id, status)=>{ let v = VENDAS.find(x=>x.id==id); if
 window.falarWhats = (num)=>{let n=num.replace(/\D/g,''); if(n.length<=11)n='55'+n; window.open(`https://wa.me/${n}`,'_blank');}
 
 function atualizarTotalAdmin(){ const total = calcularTotal($('f-qtd').value, $('f-oferta').value, $('f-taxa').value); $('f-total').textContent = formatarMoeda(total); }
-['f-qtd','f-oferta','f-taxa'].forEach(id=>$(id).addEventListener('input', atualizarTotalAdmin));
+['f-qtd','f-oferta','f-taxa'].forEach(id=>{const el=$(id); if(el) el.addEventListener('input', atualizarTotalAdmin)});
 
 $('btn-desbloquear-aba').onclick = ()=>{
   const senhaDigitada = $('input-senha-aba').value;
-
-  // Mapeia o nome da aba pro nome da senha no CONFIG
-  const mapaSenhas = {
-    venda: 'senhaVenda',
-    entregas: 'senhaEntrega',
-    financeiro: 'senhaFinanceiro',
-    config: 'senhaConfig'
-  };
-
+  const mapaSenhas = {venda: 'senhaVenda', entregas: 'senhaEntrega', financeiro: 'senhaFinanceiro', config: 'senhaConfig'};
   let chaveSenha = mapaSenhas[abaAtualDesbloqueada];
   let senhaCorreta = CONFIG[chaveSenha];
 
   if(senhaDigitada === senhaCorreta || senhaDigitada === CONFIG.senhaMaster){
-    $(`tab-${abaAtualDesbloqueada}`).classList.remove('tab-locked');
-    $('lock-screen').classList.add('hidden');
     $(`tab-${abaAtualDesbloqueada}`).classList.remove('hidden');
+    $('lock-screen').classList.add('hidden');
     $('erro-senha-aba').classList.add('hidden');
-    $('input-senha-aba').value = ''; // limpa o campo
-  } else {
-    $('erro-senha-aba').classList.remove('hidden');
-  }
+    $('input-senha-aba').value = '';
+  } else { $('erro-senha-aba').classList.remove('hidden'); }
 };
 
 $('btn-salvar-config').onclick = async ()=>{
@@ -258,14 +244,14 @@ function mudarAba(tab){
   $('input-senha-aba').value = '';
   $('erro-senha-aba').classList.add('hidden');
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.replace('tab-active','tab-inactive'));
-  document.querySelector(`[data-tab="${tab}"]`).classList.replace('tab-inactive','tab-active');
+    document.querySelector(`[data-tab="${tab}"]`).classList.replace('tab-inactive','tab-active');
 }
 
 function montarStorefront(){
   $('storefront-app').classList.remove('hidden'); $('header-subtitle').textContent = 'Faça seu pedido';
   renderSaboresSelect('p-sabor');
   function atualizarTotalCliente(){ const total = calcularTotal($('p-qtd').value, $('p-oferta').value, $('p-taxa').value); $('p-total').textContent = formatarMoeda(total); }
-  ['p-qtd','p-oferta','p-taxa'].forEach(id=>$(id).addEventListener('input', atualizarTotalCliente));
+  ['p-qtd','p-oferta','p-taxa'].forEach(id=>{const el=$(id); if(el) el.addEventListener('input', atualizarTotalCliente)});
   $('btn-fazer-pedido').onclick = ()=>{
     const total = calcularTotal($('p-qtd').value, $('p-oferta').value, $('p-taxa').value);
     const txid = 'BENDITO'+Date.now();
@@ -292,4 +278,3 @@ init();
 </script>
 </body>
 </html>
-  
