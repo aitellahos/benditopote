@@ -5,81 +5,78 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>Bendito Pote - Hayah Move</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&display=swap" rel="stylesheet"> <!-- FONTE GOTICA -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --lilac: #8B5CF6;
-    --lilac-deep: #6D28D9;
-    --lilac-light: #E7D8F9;
-    --gold: #F59E0B;
-    --gold-deep: #D97706;
-    --ink: #2E2B3A;
-    --bg: #F4EAFF; /* Fundo lilás bem clarinho */
-    --card: #FFFFFF;
-  }
-    * { font-family: 'Nunito', sans-serif; }
-  h1, h2, h3,.display { font-family: 'Baloo 2', cursive; }
-
-  body {
-    background-color: var(--bg);
-    color: var(--ink);
-    /* Marca d'água de confeitaria em alto/baixo relevo via SVG */
-    background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cg stroke='%23FFFFFF' transform='translate(1.5, 1.5)'%3E%3Cpath d='M40 30 C20 0 60 0 40 30 C30 10 50 10 40 30 M40 30 L40 45' /%3E%3Cpath d='M120 40 L135 25 C138 22 142 26 139 29 L124 44 Z M124 44 L110 58 M120 40 L115 45' /%3E%3Cpath d='M30 130 L35 150 L65 150 L70 130 Z M25 130 C25 110 75 110 75 130 Z M50 115 A 3 3 0 1 0 50 109 A 3 3 0 1 0 50 115' /%3E%3Cpath d='M130 150 L150 130 L160 140 L140 160 Z M130 150 L120 160 M160 140 L170 130' /%3E%3Ccircle cx='100' cy='90' r='1.5' /%3E%3Ccircle cx='20' cy='90' r='1' /%3E%3Ccircle cx='180' cy='90' r='2' /%3E%3C/g%3E%3Cg stroke='%23DABCF2'%3E%3Cpath d='M40 30 C20 0 60 0 40 30 C30 10 50 10 40 30 M40 30 L40 45' /%3E%3Cpath d='M120 40 L135 25 C138 22 142 26 139 29 L124 44 Z M124 44 L110 58 M120 40 L115 45' /%3E%3Cpath d='M30 130 L35 150 L65 150 L70 130 Z M25 130 C25 110 75 110 75 130 Z M50 115 A 3 3 0 1 0 50 109 A 3 3 0 1 0 50 115' /%3E%3Cpath d='M130 150 L150 130 L160 140 L140 160 Z M130 150 L120 160 M160 140 L170 130' /%3E%3Ccircle cx='100' cy='90' r='1.5' /%3E%3Ccircle cx='20' cy='90' r='1' /%3E%3Ccircle cx='180' cy='90' r='2' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-
- .jar-shadow { box-shadow: 0 8px 24px -8px rgba(109,40,217,0.25); }
- .tab-active { color: var(--lilac-deep); border-bottom: 3px solid var(--lilac-deep); }
- .tab-inactive { color: #A78BFA; border-bottom: 3px solid transparent; }
- .btn-primary { background: var(--lilac-deep); }
- .btn-primary:active { background: var(--lilac); }
- .btn-gold { background: var(--gold-deep); }
- .btn-gold:active { background: var(--gold); }
- .btn-success { background: #10B981; }
-
+  :root { --lilac: #8B5CF6; --lilac-deep: #6D28D9; --lilac-light: #E7D8F9; --gold: #F59E0B; --gold-deep: #D97706; --ink: #2E2B3A; --bg: #F4EAFF; --card: #FFFFFF; --red: #EF4444;}
+    * { font-family: 'Nunito', sans-serif; } h1, h2, h3,.display { font-family: 'Baloo 2', cursive; }
+  body { background-color: var(--bg); color: var(--ink); background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cg stroke='%23FFFFFF' transform='translate(1.5, 1.5)'%3E%3Cpath d='M40 30 C20 0 60 0 40 30 C30 10 50 10 40 30 M40 30 L40 45' /%3E%3Cpath d='M120 40 L135 25 C138 22 142 26 139 29 L124 44 Z M124 44 L110 58 M120 40 L115 45' /%3E%3Cpath d='M30 130 L35 150 L65 150 L70 130 Z M25 130 C25 110 75 110 75 130 Z M50 115 A 3 3 0 1 0 50 109 A 3 3 0 1 0 50 115' /%3E%3Cpath d='M130 150 L150 130 L160 140 L140 160 Z M130 150 L120 160 M160 140 L170 130' /%3E%3Ccircle cx='100' cy='90' r='1.5' /%3E%3Ccircle cx='20' cy='90' r='1' /%3E%3Ccircle cx='180' cy='90' r='2' /%3E%3C/g%3E%3Cg stroke='%23DABCF2'%3E%3Cpath d='M40 30 C20 0 60 0 40 30 C30 10 50 10 40 30 M40 30 L40 45' /%3E%3Cpath d='M120 40 L135 25 C138 22 142 26 139 29 L124 44 Z M124 44 L110 58 M120 40 L115 45' /%3E%3Cpath d='M30 130 L35 150 L65 150 L70 130 Z M25 130 C25 110 75 110 75 130 Z M50 115 A 3 3 0 1 0 50 109 A 3 3 0 1 0 50 115' /%3E%3Cpath d='M130 150 L150 130 L160 140 L140 160 Z M130 150 L120 160 M160 140 L170 130' /%3E%3Ccircle cx='100' cy='90' r='1.5' /%3E%3Ccircle cx='20' cy='90' r='1' /%3E%3Ccircle cx='180' cy='90' r='2' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+.jar-shadow { box-shadow: 0 8px 24px -8px rgba(109,40,217,0.25); }
+.tab-active { color: var(--lilac-deep); border-bottom: 3px solid var(--lilac-deep); }
+.tab-inactive { color: #A78BFA; border-bottom: 3px solid transparent; }
+.btn-primary { background: var(--lilac-deep); }.btn-primary:active { background: var(--lilac); }
+.btn-gold { background: var(--gold-deep); }.btn-gold:active { background: var(--gold); }
+.btn-success { background: #10B981; }.btn-danger { background: var(--red); }
   input, textarea, select { background: var(--card); border: 2px solid var(--lilac-light); }
   input:focus, textarea:focus, select:focus { outline: none; border-color: var(--lilac-deep); }
-
- .lid { background: linear-gradient(135deg, var(--lilac) 0%, var(--lilac-deep) 100%); }
- .fade-in { animation: fadeIn.25s ease-out; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-
- .kpi { background: #FFFFFF; border-left: 4px solid var(--lilac-deep); box-shadow: 0 4px 12px -4px rgba(109,40,217,0.15); }
- .hidden { display: none!important; }
+.lid { background: linear-gradient(135deg, var(--lilac) 0%, var(--lilac-deep) 100%); }
+.fade-in { animation: fadeIn.25s ease-out; } @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.kpi { background: #FFFFFF; border-left: 4px solid var(--lilac-deep); box-shadow: 0 4px 12px -4px rgba(109,40,217,0.15); }
+.hidden { display: none!important; }
+.nav-section-title {font-size: 10px; color: white; opacity: 0.7; padding: 8px 12px 0 12px; font-weight: 700; letter-spacing: 0.5px;}
+.lock-screen { background: rgba(109,40,217,0.1); border: 2px dashed var(--lilac); }
+.extra-fee { background: var(--gold); color: white; font-size: 10px; padding: 2px 6px; border-radius: 999px; margin-left: 6px;}
 </style>
 </head>
 <body class="min-h-screen pb-24">
 
 <div class="max-w-md mx-auto relative z-10">
   <header class="lid px-5 pt-6 pb-8 rounded-b- jar-shadow relative">
-    <div class="flex flex-col items-center text-center gap-1"> <!-- CENTRALIZADO -->
-      <div class="text-4xl">🍰</div> <!-- MAIOR -->
-      <div>
-        <h1 class="text-3xl leading-none tracking-wider" style="color:var(--gold); font-family:'Cinzel', serif; text-shadow: 0 0 12px rgba(245,158,11,0.6);">Bendito Pote</h1> <!-- DOURADO + GOTICO -->
-        <p id="header-subtitle" class="text-white/80 text-xs mt-1">Adolescentes da Igreja Videira participantes do Hayah Move. Cada potinho vendido é um passo em direção à nossa vitória!</p>
-      </div>
+    <div class="flex flex-col items-center text-center gap-1">
+      <div class="text-4xl">🍰</div>
+      <h1 class="text-3xl leading-none tracking-wider" style="color:var(--gold); font-family:'Cinzel', serif; text-shadow: 0 0 12px rgba(245,158,11,0.6);">Bendito Pote</h1>
+      <p id="header-subtitle" class="text-white/80 text-xs mt-1">Adolescentes da Igreja Videira participantes do Hayah Move. Cada potinho vendido é um passo em direção à nossa vitória!</p>
     </div>
   </header>
 
   <!-- APP ADMIN -->
   <div id="admin-app" class="hidden">
-    <nav class="flex justify-around bg-white/80 sticky top-0 z-10 backdrop-blur px-2 pt-3">
-      <button data-tab="venda" class="tab-btn tab-active pb-2 px-2 text-sm display font-semibold">Vendas</button>
-      <button data-tab="financeiro" class="tab-btn tab-inactive pb-2 px-2 text-sm display font-semibold">Financeiro</button>
-      <button data-tab="entregas" class="tab-btn tab-inactive pb-2 px-2 text-sm display font-semibold">Entregas</button>
-      <button data-tab="config" class="tab-btn tab-inactive pb-2 px-2 text-sm display font-semibold">Configurar</button>
+    <nav class="bg-white/80 sticky top-0 z-10 backdrop-blur">
+      <p class="nav-section-title">OPERACIONAL</p>
+      <div class="flex justify-around px-2 pt-1 pb-2">
+        <button data-tab="venda" class="tab-btn tab-active pb-2 px-2 text-sm display font-semibold">Vendas</button>
+        <button data-tab="entregas" class="tab-btn tab-inactive pb-2 px-2 text-sm display font-semibold">Entregas</button>
+      </div>
+      <div class="border-t border-gray-200"></div>
+      <p class="nav-section-title">GESTÃO</p>
+      <div class="flex justify-around px-2 pt-1 pb-3">
+        <button data-tab="financeiro" class="tab-btn tab-inactive pb-2 px-2 text-sm display font-semibold">Financeiro</button>
+        <button data-tab="config" class="tab-btn tab-inactive pb-2 px-2 text-sm display font-semibold">Configurar 🔒</button>
+      </div>
     </nav>
+
     <main class="px-4 pt-5">
       <div id="loading" class="text-center py-10" style="color:var(--lilac-deep)">Abrindo os potinhos... 🍮</div>
 
+      <!-- ABA VENDAS -->
       <section id="tab-venda" class="hidden fade-in">
         <div class="bg-white rounded-3xl p-5 jar-shadow mb-4">
           <h2 class="display text-lg mb-4" style="color:var(--lilac-deep)">Registrar Venda Manual</h2>
           <input id="f-nome" type="text" placeholder="Nome do cliente" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
           <input id="f-whats" type="tel" placeholder="WhatsApp" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+          <select id="f-sabor" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+            <option value="Tradicional">Sabor: Tradicional</option>
+            <option value="Brigadeiro">Sabor: Brigadeiro</option>
+            <option value="Ninho">Sabor: Ninho</option>
+            <option value="Oreo">Sabor: Oreo</option>
+          </select>
           <textarea id="f-endereco" rows="2" placeholder="Endereço de entrega" class="w-full rounded-xl px-3 py-2 mb-3 text-sm"></textarea>
           <div class="grid grid-cols-2 gap-3 mb-3">
             <div><label class="block text-xs font-bold mb-1">Quantidade</label><input id="f-qtd" type="number" min="1" value="1" class="w-full rounded-xl px-3 py-2 text-sm"></div>
-            <div><label class="block text-xs font-bold mb-1">Valor Unitário</label><input id="f-valor" type="number" value="15.00" readonly class="w-full rounded-xl px-3 py-2 text-sm bg-gray-100"></div>
+            <div><label class="block text-xs font-bold mb-1">Valor Unitário</label><input id="f-valor" type="number" value="15.00" class="w-full rounded-xl px-3 py-2 text-sm"></div>
+          </div>
+          <div class="grid grid-cols-2 gap-3 mb-3">
+            <div><label class="block text-xs font-bold mb-1">Oferta de Doação</label><input id="f-oferta" type="number" value="0.00" step="0.50" class="w-full rounded-xl px-3 py-2 text-sm"></div>
+            <div><label class="block text-xs font-bold mb-1">Taxa de Entrega</label><input id="f-taxa" type="number" value="0.00" step="1.00" class="w-full rounded-xl px-3 py-2 text-sm"></div>
           </div>
           <div class="rounded-2xl p-3 mb-4 flex items-center justify-between" style="background:var(--lilac-light)"><span class="text-sm font-bold">Total</span><span id="f-total" class="display text-xl" style="color:var(--lilac-deep)">R$ 15,00</span></div>
           <button id="btn-gerar-qr" class="w-full btn-primary text-white rounded-xl py-3 font-bold text-sm mb-3">Gerar QR Code Pix</button>
@@ -89,9 +86,43 @@
         <h2 class="display text-lg mb-3" style="color:var(--lilac-deep)">Últimas Vendas</h2><div id="lista-vendas" class="space-y-3"></div>
       </section>
 
-      <section id="tab-financeiro" class="hidden fade-in"><div class="grid grid-cols-2 gap-3 mb-4"><div class="kpi rounded-2xl p-4"><p class="text-xs opacity-70">Total Vendido</p><p id="kpi-total" class="display text-xl" style="color:var(--lilac-deep)">R$ 0,00</p></div><div class="kpi rounded-2xl p-4"><p class="text-xs opacity-70">Potinhos</p><p id="kpi-qtd" class="display text-xl" style="color:var(--lilac-deep)">0</p></div></div><div class="bg-white rounded-3xl p-5 jar-shadow"><h2 class="display text-lg mb-3" style="color:var(--lilac-deep)">Extrato</h2><div id="lista-financeiro" class="space-y-2 text-sm"></div></div></section>
+      <!-- ABA ENTREGAS -->
       <section id="tab-entregas" class="hidden fade-in"><h2 class="display text-lg mb-3" style="color:var(--lilac-deep)">Controle de Entrega</h2><div id="lista-entregas" class="space-y-3"></div></section>
-      <section id="tab-config" class="hidden fade-in"><div class="bg-white rounded-3xl p-5 jar-shadow mb-4"><h2 class="display text-lg mb-1" style="color:var(--lilac-deep)">Link para os clientes</h2><input id="link-cliente" type="text" readonly class="w-full rounded-xl px-3 py-2 text-xs mb-2" style="background:var(--lilac-light)"><button id="btn-compartilhar-link" class="w-full btn-gold text-white rounded-xl py-2 text-xs font-bold">Compartilhar no WhatsApp</button></div><div class="bg-white rounded-3xl p-5 jar-shadow mb-4"><h2 class="display text-lg mb-1" style="color:var(--lilac-deep)">Dados do Pix</h2><input id="c-chave" type="text" placeholder="Chave Pix" class="w-full rounded-xl px-3 py-2 mb-3 text-sm"><input id="c-nome" type="text" placeholder="Nome do recebedor" class="w-full rounded-xl px-3 py-2 mb-3 text-sm"><input id="c-cidade" type="text" placeholder="Cidade" class="w-full rounded-xl px-3 py-2 mb-3 text-sm"><input id="c-conferente" type="tel" placeholder="WhatsApp do conferente" class="w-full rounded-xl px-3 py-2 mb-3 text-sm"><button id="btn-salvar-config" class="w-full btn-primary text-white rounded-xl py-3 font-bold text-sm">Salvar</button></div></section>
+
+      <!-- ABA FINANCEIRO -->
+      <section id="tab-financeiro" class="hidden fade-in">
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <div class="kpi rounded-2xl p-4"><p class="text-xs opacity-70">Total Vendido</p><p id="kpi-total" class="display text-xl" style="color:var(--lilac-deep)">R$ 0,00</p></div>
+          <div class="kpi rounded-2xl p-4"><p class="text-xs opacity-70">Potinhos</p><p id="kpi-qtd" class="display text-xl" style="color:var(--lilac-deep)">0</p></div>
+        </div>
+        <div class="bg-white rounded-3xl p-5 jar-shadow"><h2 class="display text-lg mb-3" style="color:var(--lilac-deep)">Extrato Completo</h2><div id="lista-financeiro" class="space-y-2 text-sm"></div></div>
+      </section>
+
+      <!-- ABA CONFIG COM BLOQUEIO -->
+      <section id="tab-config" class="hidden fade-in">
+        <div id="config-lock" class="bg-white rounded-3xl p-5 jar-shadow mb-4 text-center lock-screen">
+          <div class="text-4xl mb-2">🔒</div>
+          <h2 class="display text-lg mb-2" style="color:var(--lilac-deep)">Acesso Restrito</h2>
+          <p class="text-xs mb-4 opacity-70">Digite a senha para alterar dados do PIX</p>
+          <input id="input-senha" type="password" placeholder="Senha" class="w-full rounded-xl px-3 py-2 mb-3 text-sm text-center">
+          <button id="btn-desbloquear" class="w-full btn-primary text-white rounded-xl py-3 font-bold text-sm">Desbloquear</button>
+          <p id="erro-senha" class="text-red-500 text-xs mt-2 hidden">Senha incorreta!</p>
+        </div>
+        <div id="config-content" class="hidden">
+          <div class="bg-white rounded-3xl p-5 jar-shadow mb-4"><h2 class="display text-lg mb-1" style="color:var(--lilac-deep)">Link para os clientes</h2><input id="link-cliente" type="text" readonly class="w-full rounded-xl px-3 py-2 text-xs mb-2" style="background:var(--lilac-light)"><button id="btn-compartilhar-link" class="w-full btn-gold text-white rounded-xl py-2 text-xs font-bold">Compartilhar no WhatsApp</button></div>
+          <div class="bg-white rounded-3xl p-5 jar-shadow mb-4">
+            <h2 class="display text-lg mb-1" style="color:var(--lilac-deep)">Dados do Pix</h2>
+            <input id="c-chave" type="text" placeholder="Chave Pix" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+            <input id="c-nome" type="text" placeholder="Nome do recebedor" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+            <input id="c-cidade" type="text" placeholder="Cidade" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+            <input id="c-conferente" type="tel" placeholder="WhatsApp do conferente" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+            <hr class="my-3">
+            <h3 class="display text-base mb-2" style="color:var(--lilac-deep)">Mudar Senha de Acesso</h3>
+            <input id="c-senha" type="password" placeholder="Nova Senha" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+            <button id="btn-salvar-config" class="w-full btn-primary text-white rounded-xl py-3 font-bold text-sm">Salvar Tudo</button>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 
@@ -101,8 +132,18 @@
       <h2 class="display text-lg mb-4 text-center" style="color:var(--lilac-deep)">Bolo de Pote - R$ 15,00</h2>
       <input id="p-nome" type="text" placeholder="Seu nome" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
       <input id="p-whats" type="tel" placeholder="Seu WhatsApp" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+      <select id="p-sabor" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+        <option value="Tradicional">Sabor: Tradicional</option>
+        <option value="Brigadeiro">Sabor: Brigadeiro</option>
+        <option value="Ninho">Sabor: Ninho</option>
+        <option value="Oreo">Sabor: Oreo</option>
+      </select>
       <textarea id="p-endereco" rows="2" placeholder="Endereço de entrega" class="w-full rounded-xl px-3 py-2 mb-3 text-sm"></textarea>
-      <div class="mb-4"><label class="block text-xs font-bold mb-1">Quantidade</label><input id="p-qtd" type="number" min="1" value="1" class="w-full rounded-xl px-3 py-2 text-sm"></div>
+      <div class="mb-3"><label class="block text-xs font-bold mb-1">Quantidade</label><input id="p-qtd" type="number" min="1" value="1" class="w-full rounded-xl px-3 py-2 text-sm"></div>
+      <div class="grid grid-cols-2 gap-3 mb-3">
+        <div><label class="block text-xs font-bold mb-1">Oferta de Doação ❤️</label><input id="p-oferta" type="number" value="0.00" step="0.50" class="w-full rounded-xl px-3 py-2 text-sm"></div>
+        <div><label class="block text-xs font-bold mb-1">Taxa de Entrega 🚚</label><input id="p-taxa" type="number" value="0.00" step="1.00" class="w-full rounded-xl px-3 py-2 text-sm"></div>
+      </div>
       <div class="rounded-2xl p-3 mb-4 flex items-center justify-between" style="background:var(--lilac-light)"><span class="text-sm font-bold">Total</span><span id="p-total" class="display text-xl" style="color:var(--lilac-deep)">R$ 15,00</span></div>
       <button id="btn-fazer-pedido" class="w-full btn-primary text-white rounded-xl py-3 font-bold text-sm">Gerar PIX e Enviar Pedido</button>
     </div>
@@ -119,44 +160,109 @@ const app = initializeApp(firebaseConfig); const db = getDatabase(app);
 
 const api = {async salvar(tipo, dados){ await set(ref(db, tipo), dados); },async buscar(tipo){ const snap = await get(ref(db, tipo)); return snap.exists()? snap.val() : []; },escutar(tipo, callback){ onValue(ref(db, tipo), (snap)=>callback(snap.exists()? snap.val() : [])); }};
 
-let CONFIG = {chave:'', nome:'', cidade:'', conferente:''}; let VENDAS = []; let PEDIDO_ATUAL = null; const PRECO_FIXO = 15.00;
+let CONFIG = {chave:'', nome:'', cidade:'', conferente:'', senha:'1234'}; let VENDAS = []; let PEDIDO_ATUAL = null; const PRECO_FIXO = 15.00; let configDesbloqueada = false;
 const $ = id => document.getElementById(id); const isCliente = new URLSearchParams(window.location.search).get('comprar') === '1';
 
 function buildPixPayload({pixKey, merchantName, merchantCity, amount, txid}){const field = (id, val) => `${id}${String(val.length).padStart(2,'0')}${val}`;const sanitize = (str, max) => (str||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().substring(0,max);let payload = field('00','01') + field('01','11') + field('26', field('00','br.gov.bcb.pix') + field('01',pixKey)) + field('52','0000') + field('53','986') + field('54',amount.toFixed(2)) + field('58','BR') + field('59',sanitize(merchantName,25)) + field('60',sanitize(merchantCity,15)) + field('62', field('05',txid)) + '6304';let crc = 0xFFFF; const poly = 0x1021;for(let i=0;i<payload.length;i++){crc^=(payload.charCodeAt(i)<<8); for(let j=0;j<8;j++) crc = (crc&0x8000)?((crc<<1)^poly)&0xFFFF:(crc<<1)&0xFFFF;}return payload + crc.toString(16).toUpperCase().padStart(4,'0');}
 const formatarMoeda = v => v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const calcularTotal = (qtd, oferta, taxa) => (qtd * PRECO_FIXO) + parseFloat(oferta||0) + parseFloat(taxa||0);
 
 async function init(){
   CONFIG = await api.buscar('config') || CONFIG;
-
-  if(isCliente){
-    $('admin-app').classList.add('hidden');
-    montarStorefront();
-  } else {
-    $('admin-app').classList.remove('hidden');
-    renderAdmin();
-  }
-
+  if(!CONFIG.senha) CONFIG.senha = '1234';
+  if(isCliente){ $('admin-app').classList.add('hidden'); montarStorefront(); }
+  else { $('admin-app').classList.remove('hidden'); renderAdmin(); }
   api.escutar('vendas', (dados)=>{VENDAS = dados || []; if(!isCliente){renderAdmin();}});
   $('loading').classList.add('hidden');
 }
 
-function renderAdmin(){$('link-cliente').value = window.location.href.split('?')[0] + '?comprar=1';$('c-chave').value = CONFIG.chave; $('c-nome').value = CONFIG.nome; $('c-cidade').value = CONFIG.cidade; $('c-conferente').value = CONFIG.conferente;renderVendas(); renderFinanceiro(); renderEntregas(); mudarAba('venda');}
-function renderVendas(){const wrap = $('lista-vendas'); wrap.innerHTML = '';VENDAS.slice(0,10).forEach(v=>{ wrap.innerHTML += `<div class="bg-white rounded-2xl p-3 jar-shadow text-sm"><b>${v.nome}</b> - ${v.quantidade}x - ${formatarMoeda(v.valorTotal)}<button onclick="falarWhats('${v.whats}')" class="float-right text-xs btn-gold text-white px-2 py-1 rounded">Whats</button></div>`; });}
-function renderFinanceiro(){const total = VENDAS.reduce((a,b)=>a+b.valorTotal,0); const qtd = VENDAS.reduce((a,b)=>a+b.quantidade,0);$('kpi-total').textContent = formatarMoeda(total); $('kpi-qtd').textContent = qtd;$('lista-financeiro').innerHTML = VENDAS.map(v=>`<div class="flex justify-between border-b pb-1">${v.nome}<span>${formatarMoeda(v.valorTotal)}</span></div>`).join('');}
-function renderEntregas(){const wrap = $('lista-entregas'); wrap.innerHTML = '';VENDAS.forEach(v=>{ wrap.innerHTML += `<div class="bg-white rounded-2xl p-4 jar-shadow"><p><b>${v.nome}</b></p><p class="text-xs opacity-70">${v.endereco}</p><div class="flex gap-2 mt-2"><button onclick="marcarStatus('${v.id}','saiu')" class="flex-1 btn-gold text-white rounded-lg py-2 text-xs">Saiu p/ Entrega</button><button onclick="marcarStatus('${v.id}','entregue')" class="flex-1 btn-success text-white rounded-lg py-2 text-xs">Entregue ✓</button></div><p class="text-xs mt-1">Status: <b>${v.status||'Pendente'}</b></p></div>`; });}
+function renderAdmin(){
+  $('link-cliente').value = window.location.href.split('?')[0] + '?comprar=1';
+  $('c-chave').value = CONFIG.chave; $('c-nome').value = CONFIG.nome; $('c-cidade').value = CONFIG.cidade; $('c-conferente').value = CONFIG.conferente;
+  renderVendas(); renderFinanceiro(); renderEntregas(); mudarAba('venda');
+}
+
+function renderVendas(){const wrap = $('lista-vendas'); wrap.innerHTML = '';VENDAS.slice(0,10).forEach(v=>{
+  let extras = '';
+  if(v.oferta > 0) extras += `<span class="extra-fee">+Oferta</span>`;
+  if(v.taxa > 0) extras += `<span class="extra-fee">+Entrega</span>`;
+  wrap.innerHTML += `<div class="bg-white rounded-2xl p-3 jar-shadow text-sm"><b>${v.nome}</b> - ${v.quantidade}x ${v.sabor} ${extras}<br><span class="opacity-70">${formatarMoeda(v.valorTotal)}</span><button onclick="falarWhats('${v.whats}')" class="float-right text-xs btn-gold text-white px-2 py-1 rounded">Whats</button></div>`; });}
+
+function renderFinanceiro(){const total = VENDAS.reduce((a,b)=>a+b.valorTotal,0); const qtd = VENDAS.reduce((a,b)=>a+b.quantidade,0);$('kpi-total').textContent = formatarMoeda(total); $('kpi-qtd').textContent = qtd;$('lista-financeiro').innerHTML = VENDAS.map(v=>`<div class="flex justify-between border-b pb-1"><span>${v.nome} - ${v.sabor}</span><span>${formatarMoeda(v.valorTotal)}</span></div>`).join('');}
+
+function renderEntregas(){const wrap = $('lista-entregas'); wrap.innerHTML = '';VENDAS.forEach(v=>{
+  let taxaTxt = v.taxa > 0? `<span class="extra-fee">Taxa: ${formatarMoeda(v.taxa)}</span>` : '';
+  wrap.innerHTML += `<div class="bg-white rounded-2xl p-4 jar-shadow"><p><b>${v.nome}</b> - ${v.sabor}</p><p class="text-xs opacity-70">${v.endereco} ${taxaTxt}</p><div class="flex gap-2 mt-2"><button onclick="marcarStatus('${v.id}','saiu')" class="flex-1 btn-gold text-white rounded-lg py-2 text-xs">Saiu p/ Entrega</button><button onclick="marcarStatus('${v.id}','entregue')" class="flex-1 btn-success text-white rounded-lg py-2 text-xs">Entregue ✓</button></div><p class="text-xs mt-1">Status: <b>${v.status||'Pendente'}</b></p></div>`; });}
+
 window.marcarStatus = async (id, status)=>{ let v = VENDAS.find(x=>x.id==id); if(v){v.status=status; await api.salvar('vendas',VENDAS);}}
 window.falarWhats = (num)=>{let n=num.replace(/\D/g,''); if(n.length<=11)n='55'+n; window.open(`https://wa.me/${n}`,'_blank');}
 
-$('f-qtd').addEventListener('input', ()=>{$('f-total').textContent = formatarMoeda(($('f-qtd').value||1)*PRECO_FIXO)});
-$('btn-gerar-qr').onclick = ()=>{ const total = ($('f-qtd').value||1)*PRECO_FIXO; const txid = 'BENDITO'+Date.now(); const payload = buildPixPayload({pixKey:CONFIG.chave, merchantName:CONFIG.nome, merchantCity:CONFIG.cidade, amount:total, txid}); $('qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(payload); $('pix-copiaecola').value = payload; $('qr-area').classList.remove('hidden'); };
+// ADMIN CALCULO
+function atualizarTotalAdmin(){
+  const total = calcularTotal($('f-qtd').value, $('f-oferta').value, $('f-taxa').value);
+  $('f-total').textContent = formatarMoeda(total);
+}
+['f-qtd','f-oferta','f-taxa'].forEach(id=>$(id).addEventListener('input', atualizarTotalAdmin));
+
+$('btn-gerar-qr').onclick = ()=>{
+  const total = calcularTotal($('f-qtd').value, $('f-oferta').value, $('f-taxa').value);
+  const txid = 'BENDITO'+Date.now();
+  const payload = buildPixPayload({pixKey:CONFIG.chave, merchantName:CONFIG.nome, merchantCity:CONFIG.cidade, amount:total, txid});
+  $('qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(payload);
+  $('pix-copiaecola').value = payload; $('qr-area').classList.remove('hidden');
+};
 $('btn-copiar-pix').onclick = ()=>navigator.clipboard.writeText($('pix-copiaecola').value);
-$('btn-salvar').onclick = async ()=>{ VENDAS.unshift({id:Date.now(), nome:$('f-nome').value, whats:$('f-whats').value, endereco:$('f-endereco').value, quantidade:parseFloat($('f-qtd').value), valorTotal:($('f-qtd').value||1)*PRECO_FIXO, status:'pago'}); await api.salvar('vendas',VENDAS); $('f-nome').value='';$('f-whats').value='';$('f-endereco').value='';$('f-qtd').value=1;$('qr-area').classList.add('hidden'); };
-$('btn-salvar-config').onclick = async ()=>{ CONFIG={chave:$('c-chave').value,nome:$('c-nome').value,cidade:$('c-cidade').value,conferente:$('c-conferente').value}; await api.salvar('config',CONFIG); alert('Salvo! ✅'); };
+
+$('btn-salvar').onclick = async ()=>{
+  const total = calcularTotal($('f-qtd').value, $('f-oferta').value, $('f-taxa').value);
+  VENDAS.unshift({
+    id:Date.now(), nome:$('f-nome').value, whats:$('f-whats').value, sabor:$('f-sabor').value,
+    endereco:$('f-endereco').value, quantidade:parseFloat($('f-qtd').value),
+    valorUnitario:PRECO_FIXO, oferta:parseFloat($('f-oferta').value||0), taxa:parseFloat($('f-taxa').value||0),
+    valorTotal:total, status:'pago'
+  });
+  await api.salvar('vendas',VENDAS);
+  ['f-nome','f-whats','f-endereco'].forEach(id=>$(id).value=''); $('f-qtd').value=1; $('f-oferta').value=0; $('f-taxa').value=0; atualizarTotalAdmin(); $('qr-area').classList.add('hidden');
+};
+
+$('btn-desbloquear').onclick = ()=>{
+  if($('input-senha').value === CONFIG.senha){ configDesbloqueada = true; $('config-lock').classList.add('hidden'); $('config-content').classList.remove('hidden'); $('erro-senha').classList.add('hidden'); }
+  else { $('erro-senha').classList.remove('hidden'); }
+};
+$('btn-salvar-config').onclick = async ()=>{ CONFIG={chave:$('c-chave').value,nome:$('c-nome').value,cidade:$('c-cidade').value,conferente:$('c-conferente').value, senha: $('c-senha').value || CONFIG.senha}; await api.salvar('config',CONFIG); alert('Salvo com segurança! ✅'); configDesbloqueada = false; $('config-lock').classList.remove('hidden'); $('config-content').classList.add('hidden'); $('input-senha').value = ''; };
 $('btn-compartilhar-link').onclick = ()=>window.open('https://wa.me/?text='+encodeURIComponent('Peça seu Bolo de Pote Bendito Pote: '+$('link-cliente').value));
 document.querySelectorAll('.tab-btn').forEach(btn=>btn.onclick=()=>mudarAba(btn.dataset.tab));
-function mudarAba(tab){document.querySelectorAll('[id^="tab-"]').forEach(el=>el.classList.add('hidden'));$('tab-'+tab).classList.remove('hidden');document.querySelectorAll('.tab-btn').forEach(b=>b.classList.replace('tab-active','tab-inactive'));document.querySelector(`[data-tab="${tab}"]`).classList.replace('tab-inactive','tab-active');}
+function mudarAba(tab){document.querySelectorAll('[id^="tab-"]').forEach(el=>el.classList.add('hidden'));$('tab-'+tab).classList.remove('hidden');document.querySelectorAll('.tab-btn').forEach(b=>b.classList.replace('tab-active','tab-inactive'));document.querySelector(`[data-tab="${tab}"]`).classList.replace('tab-inactive','tab-active'); if(tab!== 'config' && configDesbloqueada){ configDesbloqueada = false; $('config-lock').classList.remove('hidden'); $('config-content').classList.add('hidden'); $('input-senha').value = ''; }}
 
-function montarStorefront(){$('storefront-app').classList.remove('hidden'); $('header-subtitle').textContent = 'Faça seu pedido';$('p-qtd').addEventListener('input',()=>{$('p-total').textContent = formatarMoeda(($('p-qtd').value||1)*PRECO_FIXO)});$('btn-fazer-pedido').onclick = ()=>{ const total = ($('p-qtd').value||1)*PRECO_FIXO; const txid = 'BENDITO'+Date.now(); const payload = buildPixPayload({pixKey:CONFIG.chave, merchantName:CONFIG.nome, merchantCity:CONFIG.cidade, amount:total, txid}); $('p-qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(payload); $('p-pix-copiaecola').value = payload; $('p-qr-area').classList.remove('hidden'); PEDIDO_ATUAL = {nome:$('p-nome').value, whats:$('p-whats').value, endereco:$('p-endereco').value, quantidade:parseFloat($('p-qtd').value), valorTotal:total, id:Date.now(), status:'pendente'}; VENDAS.unshift(PEDIDO_ATUAL); api.salvar('vendas',VENDAS); };$('btn-copiar-pix-cliente').onclick = ()=>navigator.clipboard.writeText($('p-pix-copiaecola').value);$('btn-enviar-comprovante').onclick = ()=>{ let numero = CONFIG.conferente.replace(/\D/g,''); if(numero.length<=11) numero='55'+numero; const msg = `Olá! Fiz pedido de Bolo de Pote Hayah Move.\nNome: ${PEDIDO_ATUAL.nome}\nQtd: ${PEDIDO_ATUAL.quantidade}\nTotal: ${formatarMoeda(PEDIDO_ATUAL.valorTotal)}\nEnviando comprovante.`; window.open(`https://wa.me/${numero}?text=${encodeURIComponent(msg)}`,'_blank'); };}
+function montarStorefront(){
+  $('storefront-app').classList.remove('hidden'); $('header-subtitle').textContent = 'Faça seu pedido';
+  function atualizarTotalCliente(){
+    const total = calcularTotal($('p-qtd').value, $('p-oferta').value, $('p-taxa').value);
+    $('p-total').textContent = formatarMoeda(total);
+  }
+  ['p-qtd','p-oferta','p-taxa'].forEach(id=>$(id).addEventListener('input', atualizarTotalCliente));
+
+  $('btn-fazer-pedido').onclick = ()=>{
+    const total = calcularTotal($('p-qtd').value, $('p-oferta').value, $('p-taxa').value);
+    const txid = 'BENDITO'+Date.now();
+    const payload = buildPixPayload({pixKey:CONFIG.chave, merchantName:CONFIG.nome, merchantCity:CONFIG.cidade, amount:total, txid});
+    $('p-qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(payload);
+    $('p-pix-copiaecola').value = payload; $('p-qr-area').classList.remove('hidden');
+    PEDIDO_ATUAL = {
+      nome:$('p-nome').value, whats:$('p-whats').value, sabor:$('p-sabor').value,
+      endereco:$('p-endereco').value, quantidade:parseFloat($('p-qtd').value),
+      valorUnitario:PRECO_FIXO, oferta:parseFloat($('p-oferta').value||0), taxa:parseFloat($('p-taxa').value||0),
+      valorTotal:total, id:Date.now(), status:'pendente'
+    };
+    VENDAS.unshift(PEDIDO_ATUAL); api.salvar('vendas',VENDAS);
+  };
+  $('btn-copiar-pix-cliente').onclick = ()=>navigator.clipboard.writeText($('p-pix-copiaecola').value);
+  $('btn-enviar-comprovante').onclick = ()=>{
+    let numero = CONFIG.conferente.replace(/\D/g,''); if(numero.length<=11) numero='55'+numero;
+    const msg = `Olá! Fiz pedido de Bolo de Pote Hayah Move.\nNome: ${PEDIDO_ATUAL.nome}\nSabor: ${PEDIDO_ATUAL.sabor}\nQtd: ${PEDIDO_ATUAL.quantidade}\nOferta: ${formatarMoeda(PEDIDO_ATUAL.oferta)}\nTaxa: ${formatarMoeda(PEDIDO_ATUAL.taxa)}\nTotal: ${formatarMoeda(PEDIDO_ATUAL.valorTotal)}\nEnviando comprovante.`;
+    window.open(`https://wa.me/${numero}?text=${encodeURIComponent(msg)}`,'_blank');
+  };
+}
 
 init();
 </script>
