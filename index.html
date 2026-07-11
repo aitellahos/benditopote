@@ -187,7 +187,13 @@ function renderSaboresConfig(){
     wrap.innerHTML += `<div class="sabor-item"><span class="sabor-nome">🍰 ${sabor}</span><span class="sabor-toggle ${ativo? '' : 'off'}" data-sabor="${sabor}">🍰</span></div>`;
   }
   document.querySelectorAll('.sabor-toggle').forEach(el=>{
-    el.onclick = ()=>{ CONFIG.sabores[el.dataset.sabor] =!CONFIG.sabores[el.dataset.sabor]; renderSaboresConfig(); renderSaboresSelect('f-sabor'); renderSaboresSelect('p-sabor'); }
+    el.onclick = async ()=>{
+      CONFIG.sabores[el.dataset.sabor] =!CONFIG.sabores[el.dataset.sabor]; 
+      renderSaboresConfig(); 
+      renderSaboresSelect('f-sabor'); 
+      renderSaboresSelect('p-sabor');
+      await api.salvar('config', CONFIG); // Salva automático quando clica
+    }
   });
 }
 
