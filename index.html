@@ -29,6 +29,13 @@
 .sabor-toggle { font-size: 24px; cursor: pointer; transition: all 0.2s; }
 .sabor-toggle.off { opacity: 0.3; filter: grayscale(1); }
 .sabor-nome { font-weight: 700; }
+.texto-piscante {
+  animation: piscarAviso 0.8s ease-in-out infinite;
+}
+@keyframes piscarAviso {
+  0%, 100% { color: #EF4444; text-shadow: 0 0 4px rgba(239, 68, 68, 0.4); } /* Vermelho */
+  50% { color: #F59E0B; text-shadow: 0 0 4px rgba(245, 158, 11, 0.4); } /* Amarelo/Dourado */
+}
 </style>
 </head>
 <body class="min-h-screen pb-24">
@@ -276,13 +283,11 @@ function montarStorefront(){
     };
     VENDAS.unshift(PEDIDO_ATUAL); api.salvar('vendas',VENDAS);
   };
-  $('btn-copiar-pix-cliente').onclick = ()=>navigator.clipboard.writeText($('p-pix-copiaecola').value);
-  $('btn-enviar-comprovante').onclick = ()=>{
+ $('btn-enviar-comprovante').onclick = ()=>{
     let numero = CONFIG.conferente.replace(/\D/g,''); if(numero.length<=11) numero='55'+numero;
-    const msg = `Olá! Fiz pedido de Bolo de Pote Hayah Move.\nNome: ${PEDIDO_ATUAL.nome}\nSabor: ${PEDIDO_ATUAL.sabor}\nQtd: ${PEDIDO_ATUAL.quantidade}\nOferta: ${formatarMoeda(PEDIDO_ATUAL.oferta)}\nTaxa: ${formatarMoeda(PEDIDO_ATUAL.taxa)}\nTotal: ${formatarMoeda(PEDIDO_ATUAL.valorTotal)}\nEnviando comprovante.`;
+    const msg = `Olá! Fiz pedido de Bolo de Pote Hayah Move.\nNome: ${PEDIDO_ATUAL.nome}\nSabor: ${PEDIDO_ATUAL.sabor}\nQtd: ${PEDIDO_ATUAL.quantidade}\nOferta: ${formatarMoeda(PEDIDO_ATUAL.oferta)}\nTaxa: ${formatarMoeda(PEDIDO_ATUAL.taxa)}\nTotal: ${formatarMoeda(PEDIDO_ATUAL.valorTotal)}\n\n(Estou enviando a foto do comprovante logo abaixo nesta conversa 👇)`;
     window.open(`https://wa.me/${numero}?text=${encodeURIComponent(msg)}`,'_blank');
   };
-}
 
 init();
 </script>
