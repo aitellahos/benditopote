@@ -6,6 +6,8 @@
 <title>Bendito Pote - Hayah Move</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&display=swap" rel="stylesheet">
+<!-- Tailwind CSS Adicionado -->
+<script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root { --lilac: #8B5CF6; --lilac-deep: #6D28D9; --lilac-light: #E7D8F9; --gold: #F59E0B; --gold-deep: #D97706; --ink: #2E2B3A; --bg: #F4EAFF; --card: #FFFFFF; --red: #EF4444; --gray: #9CA3AF;}
     * { font-family: 'Nunito', sans-serif; } h1, h2, h3,.display { font-family: 'Baloo 2', cursive; }
@@ -67,7 +69,7 @@
         <button id="btn-desbloquear-aba" class="w-full btn-primary text-white rounded-xl py-3 font-bold text-sm">Acessar</button>
         <p id="erro-senha-aba" class="text-red-500 text-xs mt-2 hidden">Senha incorreta!</p>
       </div>
-	  <section id="tab-venda" class="hidden">
+      <section id="tab-venda" class="hidden">
         <div class="bg-white rounded-3xl p-5 jar-shadow mb-4">
           <h2 class="display text-lg mb-4" style="color:var(--lilac-deep)">Registrar Venda Manual</h2>
           <input id="f-nome" type="text" placeholder="Nome do cliente" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
@@ -90,7 +92,7 @@
         <div class="grid grid-cols-2 gap-3 mb-4"><div class="kpi rounded-2xl p-4"><p class="text-xs opacity-70">Total Vendido</p><p id="kpi-total" class="display text-xl" style="color:var(--lilac-deep)">R$ 0,00</p></div><div class="kpi rounded-2xl p-4"><p class="text-xs opacity-70">Potinhos</p><p id="kpi-qtd" class="display text-xl" style="color:var(--lilac-deep)">0</p></div></div>
         <div class="bg-white rounded-3xl p-5 jar-shadow"><h2 class="display text-lg mb-3" style="color:var(--lilac-deep)">Extrato Completo</h2><div id="lista-financeiro" class="space-y-2 text-sm"></div></div>
       </section>
-	  <section id="tab-config" class="hidden">
+      <section id="tab-config" class="hidden">
   <div class="bg-white rounded-3xl p-5 jar-shadow mb-4">
     <h2 class="display text-lg mb-3" style="color:var(--lilac-deep)">Preços</h2>
     <div class="grid grid-cols-2 gap-3 mb-3">
@@ -154,7 +156,9 @@ const $ = id => document.getElementById(id); const isCliente = new URLSearchPara
 
 function buildPixPayload({pixKey, merchantName, merchantCity, amount, txid}){const field = (id, val) => `${id}${String(val.length).padStart(2,'0')}${val}`;const sanitize = (str, max) => (str||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().substring(0,max);let payload = field('00','01') + field('01','11') + field('26', field('00','br.gov.bcb.pix') + field('01',pixKey)) + field('52','0000') + field('53','986') + field('54',amount.toFixed(2)) + field('58','BR') + field('59',sanitize(merchantName,25)) + field('60',sanitize(merchantCity,15)) + field('62', field('05',txid)) + '6304';let crc = 0xFFFF; const poly = 0x1021;for(let i=0;i<payload.length;i++){crc^=(payload.charCodeAt(i)<<8); for(let j=0;j<8;j++) crc = (crc&0x8000)?((crc<<1)^poly)&0xFFFF:(crc<<1)&0xFFFF;}return payload + crc.toString(16).toUpperCase().padStart(4,'0');}
 const formatarMoeda = v => (parseFloat(v)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-const calcularTotal = (qtd, oferta, taxa, tamanho) => ((qtd||0) * CONFIG.preco[tamanho]) + parseFloat(oferta||0) + parseFloat(taxa||0);
+// CORREÇÃO: Tratando o caso onde "tamanho" não existe ainda para evitar NaN
+const calcularTotal = (qtd, oferta, taxa, tamanho) => ((qtd||0) * (CONFIG.preco[tamanho] || 0)) + parseFloat(oferta||0) + parseFloat(taxa||0);
+
 async function init(){
   let configDoFirebase = await api.buscar('config');
   if(!configDoFirebase){ await api.salvar('config', CONFIG); } else { CONFIG = {...CONFIG,...configDoFirebase}; }
@@ -187,7 +191,7 @@ function renderSaboresConfig(){
 
 function renderAdmin(){
   $('link-cliente').value = window.location.href.split('?')[0] + '?comprar=1';
-  $('c-chave').value = CONFIG.chave; $('c-nome').value = CONFIG.nome; $('c-cidade').value = CONFIG.cidade; $('c-conferente').value = CONFIG.conferente;
+  $('c-chave').value = CONFIG.chave || ''; $('c-nome').value = CONFIG.nome || ''; $('c-cidade').value = CONFIG.cidade || ''; $('c-conferente').value = CONFIG.conferente || '';
   $('c-senha-venda').value = CONFIG.senhaVenda; $('c-senha-entrega').value = CONFIG.senhaEntrega; $('c-senha-financeiro').value = CONFIG.senhaFinanceiro; $('c-senha-config').value = CONFIG.senhaConfig;
   $('c-preco-140').value = CONFIG.preco[140]; $('c-preco-250').value = CONFIG.preco[250];
   renderSaboresConfig(); renderSaboresSelect('f-sabor'); renderVendas(); renderFinanceiro(); renderEntregas(); mudarAba('venda');
@@ -197,10 +201,14 @@ function renderVendas(){const wrap = $('lista-vendas'); wrap.innerHTML = '';VEND
 function renderFinanceiro(){const total = VENDAS.reduce((a,b)=>a+b.valorTotal,0); const qtd = VENDAS.reduce((a,b)=>a+b.quantidade,0);$('kpi-total').textContent = formatarMoeda(total); $('kpi-qtd').textContent = qtd;$('lista-financeiro').innerHTML = VENDAS.map(v=>`<div class="flex justify-between border-b pb-1"><span>${v.nome} - ${v.sabor} ${v.tamanho}ml</span><span>${formatarMoeda(v.valorTotal)}</span></div>`).join('');}
 function renderEntregas(){const wrap = $('lista-entregas'); wrap.innerHTML = '';VENDAS.forEach(v=>{ wrap.innerHTML += `<div class="bg-white rounded-2xl p-4 jar-shadow"><p><b>${v.nome}</b> - ${v.sabor} ${v.tamanho}ml</p><p class="text-xs opacity-70">${v.endereco}</p><div class="flex gap-2 mt-2"><button onclick="marcarStatus('${v.id}','saiu')" class="flex-1 btn-gold text-white rounded-lg py-2 text-xs">Saiu</button><button onclick="marcarStatus('${v.id}','entregue')" class="flex-1 btn-success text-white rounded-lg py-2 text-xs">Entregue</button></div><p class="text-xs mt-1">Status: <b>${v.status||'Pendente'}</b></p></div>`; });}
 window.marcarStatus = async (id, status)=>{ let v = VENDAS.find(x=>x.id==id); if(v){v.status=status; await api.salvar('vendas',VENDAS);}}
-window.falarWhats = (num)=>{let n=num.replace(/\D/g,''); if(n.length<=11)n='55'+n; window.open(`https://wa.me/${n}`,'_blank');}
+window.falarWhats = (num)=>{if(!num) return; let n=num.replace(/\D/g,''); if(n.length<=11)n='55'+n; window.open(`https://wa.me/${n}`,'_blank');}
 
 function atualizarTotalAdmin(){
-  const [sabor, tamanho] = $('f-sabor').value.split('|');
+  const valorSabor = $('f-sabor').value;
+  // CORREÇÃO: Evita erro se o usuário desmarcar o sabor
+  if(!valorSabor) { $('f-total').textContent = formatarMoeda(0); $('f-valor').value = 0; return; }
+  
+  const [sabor, tamanho] = valorSabor.split('|');
   const total = calcularTotal($('f-qtd').value, $('f-oferta').value, $('f-taxa').value, tamanho);
   $('f-total').textContent = formatarMoeda(total); $('f-valor').value = CONFIG.preco[tamanho] || 0;
 }
@@ -210,10 +218,35 @@ $('btn-desbloquear-aba').onclick = ()=>{ const senhaDigitada = $('input-senha-ab
 
 $('btn-salvar-config').onclick = async ()=>{ if($('c-senha-master').value!== CONFIG.senhaMaster){ alert('Senha Master incorreta!'); return; } CONFIG.preco[140] = parseFloat($('c-preco-140').value); CONFIG.preco[250] = parseFloat($('c-preco-250').value); CONFIG={...CONFIG, chave:$('c-chave').value,nome:$('c-nome').value,cidade:$('c-cidade').value,conferente:$('c-conferente').value, senhaVenda:$('c-senha-venda').value, senhaEntrega:$('c-senha-entrega').value, senhaFinanceiro:$('c-senha-financeiro').value, senhaConfig:$('c-senha-config').value, senhaMaster: $('c-nova-senha-master').value || CONFIG.senhaMaster}; await api.salvar('config',CONFIG); alert('Tudo Salvo! ✅'); $('c-senha-master').value=''; $('c-nova-senha-master').value=''; renderSaboresSelect('f-sabor'); renderSaboresSelect('p-sabor'); };
 
-$('btn-gerar-qr').onclick = ()=>{ const [sabor, tamanho] = $('f-sabor').value.split('|'); const total = calcularTotal($('f-qtd').value, $('f-oferta').value, $('f-taxa').value, tamanho); const txid = 'BENDITO'+Date.now(); const payload = buildPixPayload({pixKey:CONFIG.chave, merchantName:CONFIG.nome, merchantCity:CONFIG.cidade, amount:total, txid}); $('qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(payload); $('pix-copiaecola').value = payload; $('qr-area').classList.remove('hidden'); };
+$('btn-gerar-qr').onclick = ()=>{ 
+  // CORREÇÃO: Validação antes de gerar o PIX
+  if (!$('f-sabor').value) { alert("Por favor, selecione um sabor primeiro."); return; }
+  
+  const [sabor, tamanho] = $('f-sabor').value.split('|'); 
+  const total = calcularTotal($('f-qtd').value, $('f-oferta').value, $('f-taxa').value, tamanho); 
+  const txid = 'BENDITO'+Date.now(); 
+  const payload = buildPixPayload({pixKey:CONFIG.chave, merchantName:CONFIG.nome, merchantCity:CONFIG.cidade, amount:total, txid}); 
+  $('qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(payload); 
+  $('pix-copiaecola').value = payload; 
+  $('qr-area').classList.remove('hidden'); 
+};
 $('btn-copiar-pix').onclick = ()=>navigator.clipboard.writeText($('pix-copiaecola').value);
 
-$('btn-salvar').onclick = async ()=>{ const [sabor, tamanho] = $('f-sabor').value.split('|'); const total = calcularTotal($('f-qtd').value, $('f-oferta').value, $('f-taxa').value, tamanho); VENDAS.unshift({id:Date.now(), nome:$('f-nome').value, whats:$('f-whats').value, sabor:sabor, tamanho:tamanho, endereco:$('f-endereco').value, quantidade:parseFloat($('f-qtd').value), valorUnitario:CONFIG.preco[tamanho], oferta:parseFloat($('f-oferta').value||0), taxa:parseFloat($('f-taxa').value||0), valorTotal:total, status:'pago'}); await api.salvar('vendas',VENDAS); ['f-nome','f-whats','f-endereco'].forEach(id=>$(id).value=''); $('f-qtd').value=1; $('f-oferta').value=0; $('f-taxa').value=0; atualizarTotalAdmin(); $('qr-area').classList.add('hidden'); };
+$('btn-salvar').onclick = async ()=>{ 
+  // CORREÇÃO: Validação antes de salvar
+  if (!$('f-sabor').value) { alert("Por favor, selecione um sabor primeiro."); return; }
+  
+  const [sabor, tamanho] = $('f-sabor').value.split('|'); 
+  const total = calcularTotal($('f-qtd').value, $('f-oferta').value, $('f-taxa').value, tamanho); 
+  VENDAS.unshift({id:Date.now(), nome:$('f-nome').value, whats:$('f-whats').value, sabor:sabor, tamanho:tamanho, endereco:$('f-endereco').value, quantidade:parseFloat($('f-qtd').value), valorUnitario:CONFIG.preco[tamanho], oferta:parseFloat($('f-oferta').value||0), taxa:parseFloat($('f-taxa').value||0), valorTotal:total, status:'pago'}); 
+  await api.salvar('vendas',VENDAS); 
+  ['f-nome','f-whats','f-endereco'].forEach(id=>$(id).value=''); 
+  $('f-sabor').value = ''; // Limpa o sabor
+  $('f-qtd').value=1; $('f-oferta').value=0; $('f-taxa').value=0; 
+  atualizarTotalAdmin(); 
+  $('qr-area').classList.add('hidden'); 
+  alert("Salvo com sucesso!");
+};
 $('btn-compartilhar-link').onclick = ()=>window.open('https://wa.me/?text='+encodeURIComponent('Peça seu Bolo de Pote: '+$('link-cliente').value));
 
 document.querySelectorAll('.tab-btn').forEach(btn=>btn.onclick=()=>mudarAba(btn.dataset.tab));
@@ -221,10 +254,43 @@ function mudarAba(tab){ document.querySelectorAll('[id^="tab-"]').forEach(el=>el
 
 function montarStorefront(){
   $('storefront-app').classList.remove('hidden'); $('header-subtitle').textContent = 'Faça seu pedido'; renderSaboresSelect('p-sabor');
-  function atualizarTotalCliente(){ const [sabor, tamanho] = $('p-sabor').value.split('|'); const total = calcularTotal($('p-qtd').value, $('p-oferta').value, $('p-taxa').value, tamanho); $('p-total').textContent = formatarMoeda(total); }
+  function atualizarTotalCliente(){ 
+    const valorSabor = $('p-sabor').value;
+    // CORREÇÃO: Evita erro se o usuário desmarcar o sabor
+    if(!valorSabor) { $('p-total').textContent = formatarMoeda(0); return; }
+    
+    const [sabor, tamanho] = valorSabor.split('|'); 
+    const total = calcularTotal($('p-qtd').value, $('p-oferta').value, $('p-taxa').value, tamanho); 
+    $('p-total').textContent = formatarMoeda(total); 
+  }
   ['p-qtd','p-oferta','p-taxa','p-sabor'].forEach(id=>{const el=$(id); if(el) el.addEventListener('input', atualizarTotalCliente)});
-  $('btn-fazer-pedido').onclick = ()=>{ const [sabor, tamanho] = $('p-sabor').value.split('|'); const total = calcularTotal($('p-qtd').value, $('p-oferta').value, $('p-taxa').value, tamanho); const txid = 'BENDITO'+Date.now(); const payload = buildPixPayload({pixKey:CONFIG.chave, merchantName:CONFIG.nome, merchantCity:CONFIG.cidade, amount:total, txid}); $('p-qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(payload); $('p-pix-copiaecola').value = payload; $('p-qr-area').classList.remove('hidden'); PEDIDO_ATUAL = {nome:$('p-nome').value, whats:$('p-whats').value, sabor:sabor, tamanho:tamanho, endereco:$('p-endereco').value, quantidade:parseFloat($('p-qtd').value), valorUnitario:CONFIG.preco[tamanho], oferta:parseFloat($('p-oferta').value||0), taxa:parseFloat($('p-taxa').value||0), taxa:parseFloat($('p-taxa').value||0),
-      valorTotal:total, id:Date.now(), status:'pendente'
+  
+  $('btn-fazer-pedido').onclick = ()=>{ 
+    // CORREÇÃO: Validação antes de gerar pedido
+    if (!$('p-sabor').value) { alert("Por favor, selecione um sabor primeiro."); return; }
+    
+    const [sabor, tamanho] = $('p-sabor').value.split('|'); 
+    const total = calcularTotal($('p-qtd').value, $('p-oferta').value, $('p-taxa').value, tamanho); 
+    const txid = 'BENDITO'+Date.now(); 
+    const payload = buildPixPayload({pixKey:CONFIG.chave, merchantName:CONFIG.nome, merchantCity:CONFIG.cidade, amount:total, txid}); 
+    $('p-qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(payload); 
+    $('p-pix-copiaecola').value = payload; 
+    $('p-qr-area').classList.remove('hidden'); 
+    
+    // CORREÇÃO: Removida a propriedade 'taxa' duplicada
+    PEDIDO_ATUAL = {
+      nome:$('p-nome').value, 
+      whats:$('p-whats').value, 
+      sabor:sabor, 
+      tamanho:tamanho, 
+      endereco:$('p-endereco').value, 
+      quantidade:parseFloat($('p-qtd').value), 
+      valorUnitario:CONFIG.preco[tamanho], 
+      oferta:parseFloat($('p-oferta').value||0), 
+      taxa:parseFloat($('p-taxa').value||0),
+      valorTotal:total, 
+      id:Date.now(), 
+      status:'pendente'
     };
     VENDAS.unshift(PEDIDO_ATUAL); api.salvar('vendas',VENDAS);
   };
