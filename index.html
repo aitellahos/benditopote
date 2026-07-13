@@ -98,32 +98,37 @@
       </section>
 
       <section id="tab-config" class="hidden fade-in">
-        <div class="bg-white rounded-3xl p-5 jar-shadow mb-4">
-          <h2 class="display text-lg mb-3" style="color:var(--lilac-deep)">Controle de Sabores</h2>
-          <p class="text-xs mb-3 opacity-70">Clique no bolinho 🍰 para ativar/desativar o sabor</p>
-          <div id="lista-sabores-config"></div>
-        </div>
-        <div class="bg-white rounded-3xl p-5 jar-shadow mb-4"><h2 class="display text-lg mb-1" style="color:var(--lilac-deep)">Link para os clientes</h2><input id="link-cliente" type="text" readonly class="w-full rounded-xl px-3 py-2 text-xs mb-2" style="background:var(--lilac-light)"><button id="btn-compartilhar-link" class="w-full btn-gold text-white rounded-xl py-2 text-xs font-bold">Compartilhar no WhatsApp</button></div>
-        <div class="bg-white rounded-3xl p-5 jar-shadow mb-4">
-          <h2 class="display text-lg mb-3" style="color:var(--lilac-deep)">Gerenciar Senhas das Equipes</h2>
-          <label class="text-xs font-bold">Senha Vendas</label><input id="c-senha-venda" type="text" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
-          <label class="text-xs font-bold">Senha Entregas</label><input id="c-senha-entrega" type="text" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
-          <label class="text-xs font-bold">Senha Financeiro</label><input id="c-senha-financeiro" type="text" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
-          <label class="text-xs font-bold">Senha Config</label><input id="c-senha-config" type="text" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
-          <hr class="my-3">
-          <h3 class="display text-base mb-2" style="color:var(--red)">Área do Administrador</h3>
-          <label class="text-xs font-bold">Senha Master</label><input id="c-senha-master" type="password" placeholder="Digite a senha master atual" class="w-full rounded-xl px-3 py-2 mb-2 text-sm">
-          <label class="text-xs font-bold">Nova Senha Master</label><input id="c-nova-senha-master" type="password" placeholder="Deixe em branco pra não mudar" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
-          <button id="btn-salvar-config" class="w-full btn-primary text-white rounded-xl py-3 font-bold text-sm">Salvar Tudo</button>
-        </div>
-        <div class="bg-white rounded-3xl p-5 jar-shadow mb-4">
-          <h2 class="display text-lg mb-1" style="color:var(--lilac-deep)">Dados do Pix</h2>
-          <input id="c-chave" type="text" placeholder="Chave Pix" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
-          <input id="c-nome" type="text" placeholder="Nome do recebedor" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
-          <input id="c-cidade" type="text" placeholder="Cidade" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
-          <input id="c-conferente" type="tel" placeholder="WhatsApp do conferente" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
-        </div>
-      </section>
+  <div class="bg-white rounded-3xl p-5 jar-shadow mb-4">
+    <h2 class="display text-lg mb-3" style="color:var(--lilac-deep)">Preços</h2>
+    <div class="grid grid-cols-2 gap-3 mb-3">
+      <div><label class="block text-xs font-bold mb-1">140ml</label><input id="c-preco-140" type="number" step="0.01" class="w-full rounded-xl px-3 py-2 text-sm"></div>
+      <div><label class="block text-xs font-bold mb-1">250ml</label><input id="c-preco-250" type="number" step="0.01" class="w-full rounded-xl px-3 py-2 text-sm"></div>
+    </div>
+    <h2 class="display text-lg mb-3" style="color:var(--lilac-deep)">Controle de Sabores e Tamanhos</h2>
+    <p class="text-xs mb-3 opacity-70">Clique no 🍰 para ativar/desativar tamanho</p>
+    <div id="lista-sabores-config"></div>
+  </div>
+  <div class="bg-white rounded-3xl p-5 jar-shadow mb-4"><h2 class="display text-lg mb-1" style="color:var(--lilac-deep)">Link para os clientes</h2><input id="link-cliente" type="text" readonly class="w-full rounded-xl px-3 py-2 text-xs mb-2" style="background:var(--lilac-light)"><button id="btn-compartilhar-link" class="w-full btn-gold text-white rounded-xl py-2 text-xs font-bold">Compartilhar no WhatsApp</button></div>
+  <div class="bg-white rounded-3xl p-5 jar-shadow mb-4">
+    <h2 class="display text-lg mb-3" style="color:var(--lilac-deep)">Gerenciar Senhas</h2>
+    <label class="text-xs font-bold">Senha Vendas</label><input id="c-senha-venda" type="text" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+    <label class="text-xs font-bold">Senha Entregas</label><input id="c-senha-entrega" type="text" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+    <label class="text-xs font-bold">Senha Financeiro</label><input id="c-senha-financeiro" type="text" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+    <label class="text-xs font-bold">Senha Config</label><input id="c-senha-config" type="text" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+    <hr class="my-3">
+    <h3 class="display text-base mb-2" style="color:var(--red)">Área do Administrador</h3>
+    <label class="text-xs font-bold">Senha Master</label><input id="c-senha-master" type="password" placeholder="Digite a senha master atual" class="w-full rounded-xl px-3 py-2 mb-2 text-sm">
+    <label class="text-xs font-bold">Nova Senha Master</label><input id="c-nova-senha-master" type="password" placeholder="Deixe em branco pra não mudar" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+    <button id="btn-salvar-config" class="w-full btn-primary text-white rounded-xl py-3 font-bold text-sm">Salvar Tudo</button>
+  </div>
+  <div class="bg-white rounded-3xl p-5 jar-shadow mb-4">
+    <h2 class="display text-lg mb-1" style="color:var(--lilac-deep)">Dados do Pix</h2>
+    <input id="c-chave" type="text" placeholder="Chave Pix" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+    <input id="c-nome" type="text" placeholder="Nome do recebedor" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+    <input id="c-cidade" type="text" placeholder="Cidade" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+    <input id="c-conferente" type="tel" placeholder="WhatsApp do conferente" class="w-full rounded-xl px-3 py-2 mb-3 text-sm">
+  </div>
+</section>
     </main>
   </div>
 
@@ -152,13 +157,13 @@ const app = initializeApp(firebaseConfig); const db = getDatabase(app);
 
 const api = {async salvar(tipo, dados){ await set(ref(db, tipo), dados); },async buscar(tipo){ const snap = await get(ref(db, tipo)); return snap.exists()? snap.val() : null; },escutar(tipo, callback){ onValue(ref(db, tipo), (snap)=>callback(snap.exists()? snap.val() : [])); }};
 
-let CONFIG = {chave:'', nome:'', cidade:'', conferente:'', senhaMaster:'admin123', senhaVenda:'1234', senhaEntrega:'1234', senhaFinanceiro:'1234', senhaConfig:'1234', sabores: {Tradicional:true, Brigadeiro:true, Ninho:true, Oreo:true}};
-let VENDAS = []; let PEDIDO_ATUAL = null; const PRECO_FIXO = 15.00; let abaAtualDesbloqueada = null;
+let CONFIG = {chave:'', nome:'', cidade:'', conferente:'', senhaMaster:'admin123', senhaVenda:'1234', senhaEntrega:'1234', senhaFinanceiro:'1234', senhaConfig:'1234', preco: {"140":10.00, "250":18.00}, sabores: {Tradicional:{140:true,250:true}, Brigadeiro:{140:true,250:true}, Ninho:{140:true,250:true}, Oreo:{140:true,250:true}}};
+let VENDAS = []; let PEDIDO_ATUAL = null; let abaAtualDesbloqueada = null;e
 const $ = id => document.getElementById(id); const isCliente = new URLSearchParams(window.location.search).get('comprar') === '1';
 
 function buildPixPayload({pixKey, merchantName, merchantCity, amount, txid}){const field = (id, val) => `${id}${String(val.length).padStart(2,'0')}${val}`;const sanitize = (str, max) => (str||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().substring(0,max);let payload = field('00','01') + field('01','11') + field('26', field('00','br.gov.bcb.pix') + field('01',pixKey)) + field('52','0000') + field('53','986') + field('54',amount.toFixed(2)) + field('58','BR') + field('59',sanitize(merchantName,25)) + field('60',sanitize(merchantCity,15)) + field('62', field('05',txid)) + '6304';let crc = 0xFFFF; const poly = 0x1021;for(let i=0;i<payload.length;i++){crc^=(payload.charCodeAt(i)<<8); for(let j=0;j<8;j++) crc = (crc&0x8000)?((crc<<1)^poly)&0xFFFF:(crc<<1)&0xFFFF;}return payload + crc.toString(16).toUpperCase().padStart(4,'0');}
 const formatarMoeda = v => v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-const calcularTotal = (qtd, oferta, taxa) => (qtd * PRECO_FIXO) + parseFloat(oferta||0) + parseFloat(taxa||0);
+const calcularTotal = (qtd, oferta, taxa, tamanho) => (qtd * CONFIG.preco[tamanho]) + parseFloat(oferta||0) + parseFloat(taxa||0);
 
 async function init(){
   let configDoFirebase = await api.buscar('config');
@@ -180,23 +185,22 @@ async function init(){
 
 function renderSaboresSelect(selectId){
   const select = $(selectId); if(!select) return; select.innerHTML = '';
-  for(const [sabor, ativo] of Object.entries(CONFIG.sabores)){
-    if(ativo){ select.innerHTML += `<option value="${sabor}">Sabor: ${sabor}</option>`; }
+  for(const [sabor, tamanhos] of Object.entries(CONFIG.sabores)){
+    if(tamanhos[140]) select.innerHTML += `<option value="${sabor}|140">${sabor} - 140ml - ${formatarMoeda(CONFIG.preco[140])}</option>`;
+    if(tamanhos[250]) select.innerHTML += `<option value="${sabor}|250">${sabor} - 250ml - ${formatarMoeda(CONFIG.preco[250])}</option>`;
   }
 }
 
 function renderSaboresConfig(){
   const wrap = $('lista-sabores-config'); if(!wrap) return; wrap.innerHTML = '';
-  for(const [sabor, ativo] of Object.entries(CONFIG.sabores)){
-    wrap.innerHTML += `<div class="sabor-item"><span class="sabor-nome">🍰 ${sabor}</span><span class="sabor-toggle ${ativo? '' : 'off'}" data-sabor="${sabor}">🍰</span></div>`;
+  for(const [sabor, tamanhos] of Object.entries(CONFIG.sabores)){
+    wrap.innerHTML += `<div class="sabor-item"><span class="sabor-nome">🍰 ${sabor}</span><div class="flex gap-2"><span class="sabor-toggle ${tamanhos[140]? '' : 'off'}" data-sabor="${sabor}" data-tam="140">140ml</span><span class="sabor-toggle ${tamanhos[250]? '' : 'off'}" data-sabor="${sabor}" data-tam="250">250ml</span></div></div>`;
   }
   document.querySelectorAll('.sabor-toggle').forEach(el=>{
     el.onclick = async ()=>{
-      CONFIG.sabores[el.dataset.sabor] =!CONFIG.sabores[el.dataset.sabor]; 
-      renderSaboresConfig(); 
-      renderSaboresSelect('f-sabor'); 
-      renderSaboresSelect('p-sabor');
-      await api.salvar('config', CONFIG); // Salva automático quando clica
+      CONFIG.sabores[el.dataset.sabor][el.dataset.tam] =!CONFIG.sabores[el.dataset.sabor][el.dataset.tam];
+      renderSaboresConfig(); renderSaboresSelect('f-sabor'); renderSaboresSelect('p-sabor');
+      await api.salvar('config', CONFIG);
     }
   });
 }
@@ -234,9 +238,12 @@ $('btn-desbloquear-aba').onclick = ()=>{
 
 $('btn-salvar-config').onclick = async ()=>{
   if($('c-senha-master').value!== CONFIG.senhaMaster){ alert('Senha Master incorreta!'); return; }
+  CONFIG.preco[140] = parseFloat($('c-preco-140').value);
+  CONFIG.preco[250] = parseFloat($('c-preco-250').value);
   CONFIG={...CONFIG, chave:$('c-chave').value,nome:$('c-nome').value,cidade:$('c-cidade').value,conferente:$('c-conferente').value, senhaVenda:$('c-senha-venda').value, senhaEntrega:$('c-senha-entrega').value, senhaFinanceiro:$('c-senha-financeiro').value, senhaConfig:$('c-senha-config').value, senhaMaster: $('c-nova-senha-master').value || CONFIG.senhaMaster};
   await api.salvar('config',CONFIG); alert('Tudo Salvo! ✅');
   $('c-senha-master').value=''; $('c-nova-senha-master').value='';
+  renderSaboresSelect('f-sabor'); renderSaboresSelect('p-sabor'); // atualiza na hora
 };
 
 $('btn-gerar-qr').onclick = ()=>{ const total = calcularTotal($('f-qtd').value, $('f-oferta').value, $('f-taxa').value); const txid = 'BENDITO'+Date.now(); const payload = buildPixPayload({pixKey:CONFIG.chave, merchantName:CONFIG.nome, merchantCity:CONFIG.cidade, amount:total, txid}); $('qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(payload); $('pix-copiaecola').value = payload; $('qr-area').classList.remove('hidden'); };
