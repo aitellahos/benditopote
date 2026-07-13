@@ -209,6 +209,8 @@ function renderAdmin(){
   $('link-cliente').value = window.location.href.split('?')[0] + '?comprar=1';
   $('c-chave').value = CONFIG.chave; $('c-nome').value = CONFIG.nome; $('c-cidade').value = CONFIG.cidade; $('c-conferente').value = CONFIG.conferente;
   $('c-senha-venda').value = CONFIG.senhaVenda; $('c-senha-entrega').value = CONFIG.senhaEntrega; $('c-senha-financeiro').value = CONFIG.senhaFinanceiro; $('c-senha-config').value = CONFIG.senhaConfig;
+  $('c-preco-140').value = CONFIG.preco[140];
+  $('c-preco-250').value = CONFIG.preco[250];
   renderSaboresConfig(); renderSaboresSelect('f-sabor');
   renderVendas(); renderFinanceiro(); renderEntregas(); mudarAba('venda');
 }
