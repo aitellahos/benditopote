@@ -6,7 +6,6 @@
 <title>Bendito Pote - Hayah Move</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&display=swap" rel="stylesheet">
-<!-- Tailwind CSS Adicionado -->
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root { --lilac: #8B5CF6; --lilac-deep: #6D28D9; --lilac-light: #E7D8F9; --gold: #F59E0B; --gold-deep: #D97706; --ink: #2E2B3A; --bg: #F4EAFF; --card: #FFFFFF; --red: #EF4444; --gray: #9CA3AF;}
@@ -16,7 +15,7 @@
 .tab-active { color: var(--lilac-deep); border-bottom: 3px solid var(--lilac-deep); }
 .tab-inactive { color: #A78BFA; border-bottom: 3px solid transparent; }
 .btn-primary { background: var(--lilac-deep); }.btn-gold { background: var(--gold-deep); }
-.btn-success { background: #10B981; }.btn-danger { background: var(--red); }
+.btn-success { background: #10B981; }
   input, textarea, select { background: var(--card); border: 2px solid var(--lilac-light); }
   input:focus, textarea:focus, select:focus { outline: none; border-color: var(--lilac-deep); }
 .lid { background: linear-gradient(135deg, var(--lilac) 0%, var(--lilac-deep) 100%); }
@@ -43,6 +42,7 @@
       <p id="header-subtitle" class="text-white/80 text-xs mt-1">Adolescentes da Igreja Videira - Hayah Move</p>
     </div>
   </header>
+
   <div id="admin-app" class="hidden">
     <nav class="bg-white/80 sticky top-0 z-10 backdrop-blur">
       <p class="nav-section-title">OPERACIONAL</p>
@@ -69,6 +69,7 @@
         <button id="btn-desbloquear-aba" class="w-full btn-primary text-white rounded-xl py-3 font-bold text-sm">Acessar</button>
         <p id="erro-senha-aba" class="text-red-500 text-xs mt-2 hidden">Senha incorreta!</p>
       </div>
+
       <section id="tab-venda" class="hidden">
         <div class="bg-white rounded-3xl p-5 jar-shadow mb-4">
           <h2 class="display text-lg mb-4" style="color:var(--lilac-deep)">Registrar Venda Manual</h2>
@@ -92,6 +93,7 @@
         <div class="grid grid-cols-2 gap-3 mb-4"><div class="kpi rounded-2xl p-4"><p class="text-xs opacity-70">Total Vendido</p><p id="kpi-total" class="display text-xl" style="color:var(--lilac-deep)">R$ 0,00</p></div><div class="kpi rounded-2xl p-4"><p class="text-xs opacity-70">Potinhos</p><p id="kpi-qtd" class="display text-xl" style="color:var(--lilac-deep)">0</p></div></div>
         <div class="bg-white rounded-3xl p-5 jar-shadow"><h2 class="display text-lg mb-3" style="color:var(--lilac-deep)">Extrato Completo</h2><div id="lista-financeiro" class="space-y-2 text-sm"></div></div>
       </section>
+
       <section id="tab-config" class="hidden">
   <div class="bg-white rounded-3xl p-5 jar-shadow mb-4">
     <h2 class="display text-lg mb-3" style="color:var(--lilac-deep)">Preços</h2>
@@ -141,6 +143,7 @@
     <div id="p-qr-area" class="hidden bg-white rounded-3xl p-5 jar-shadow mt-4 text-center"><h3 class="display text-base mb-2" style="color:var(--lilac-deep)">Pague com Pix</h3><img id="p-qr-img" src="" class="w-48 h-48 mx-auto border-2 border-dashed rounded-2xl p-2 mb-3"><input id="p-pix-copiaecola" readonly class="w-full rounded-xl px-3 py-2 mb-3 text-xs"><button id="btn-copiar-pix-cliente" class="w-full btn-gold text-white rounded-xl py-2 text-xs font-bold mb-2">Copiar código PIX</button><button id="btn-enviar-comprovante" class="w-full btn-success text-white rounded-xl py-3 font-bold text-sm">Enviar comprovante via WhatsApp</button></div>
   </div>
 </div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
@@ -150,18 +153,27 @@ const app = initializeApp(firebaseConfig); const db = getDatabase(app);
 
 const api = {async salvar(tipo, dados){ await set(ref(db, tipo), dados); },async buscar(tipo){ const snap = await get(ref(db, tipo)); return snap.exists()? snap.val() : null; },escutar(tipo, callback){ onValue(ref(db, tipo), (snap)=>callback(snap.exists()? snap.val() : [])); }};
 
-let CONFIG = {chave:'', nome:'', cidade:'', conferente:'', senhaMaster:'admin123', senhaVenda:'1234', senhaEntrega:'1234', senhaFinanceiro:'1234', senhaConfig:'1234', preco: {"140":10.00, "250":18.00}, sabores: {Tradicional:{140:true,250:true}, Brigadeiro:{140:true,250:true}, Ninho:{140:true,250:true}, Oreo:{140:true,250:true}, Mixto:{140:true,250:true}}};
+// SÓ 3 SABORES AGORA
+let CONFIG_PADRAO = {chave:'', nome:'', cidade:'', conferente:'', senhaMaster:'admin123', senhaVenda:'1234', senhaEntrega:'1234', senhaFinanceiro:'1234', senhaConfig:'1234', preco: {"140":10.00, "250":18.00}, sabores: {Ninho:{140:true,250:true}, Chocolate:{140:true,250:true}, Mixto:{140:true,250:true}}};
+
+let CONFIG = {...CONFIG_PADRAO};
 let VENDAS = []; let PEDIDO_ATUAL = null; let abaAtualDesbloqueada = null;
 const $ = id => document.getElementById(id); const isCliente = new URLSearchParams(window.location.search).get('comprar') === '1';
 
 function buildPixPayload({pixKey, merchantName, merchantCity, amount, txid}){const field = (id, val) => `${id}${String(val.length).padStart(2,'0')}${val}`;const sanitize = (str, max) => (str||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().substring(0,max);let payload = field('00','01') + field('01','11') + field('26', field('00','br.gov.bcb.pix') + field('01',pixKey)) + field('52','0000') + field('53','986') + field('54',amount.toFixed(2)) + field('58','BR') + field('59',sanitize(merchantName,25)) + field('60',sanitize(merchantCity,15)) + field('62', field('05',txid)) + '6304';let crc = 0xFFFF; const poly = 0x1021;for(let i=0;i<payload.length;i++){crc^=(payload.charCodeAt(i)<<8); for(let j=0;j<8;j++) crc = (crc&0x8000)?((crc<<1)^poly)&0xFFFF:(crc<<1)&0xFFFF;}return payload + crc.toString(16).toUpperCase().padStart(4,'0');}
 const formatarMoeda = v => (parseFloat(v)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-// CORREÇÃO: Tratando o caso onde "tamanho" não existe ainda para evitar NaN
 const calcularTotal = (qtd, oferta, taxa, tamanho) => ((qtd||0) * (CONFIG.preco[tamanho] || 0)) + parseFloat(oferta||0) + parseFloat(taxa||0);
 
 async function init(){
   let configDoFirebase = await api.buscar('config');
-  if(!configDoFirebase){ await api.salvar('config', CONFIG); } else { CONFIG = {...CONFIG,...configDoFirebase}; }
+  // FORÇA USAR SÓ OS 3 SABORES NOVOS
+  if(!configDoFirebase){
+    await api.salvar('config', CONFIG_PADRAO);
+    CONFIG = CONFIG_PADRAO;
+  } else {
+    CONFIG = {...CONFIG_PADRAO,...configDoFirebase, sabores: CONFIG_PADRAO.sabores};
+  }
+
   if(isCliente){ $('admin-app').classList.add('hidden'); montarStorefront(); } else { $('admin-app').classList.remove('hidden'); renderAdmin(); }
   api.escutar('vendas', (dados)=>{VENDAS = dados || []; if(!isCliente){renderAdmin();}});
   $('loading').classList.add('hidden');
@@ -205,9 +217,7 @@ window.falarWhats = (num)=>{if(!num) return; let n=num.replace(/\D/g,''); if(n.l
 
 function atualizarTotalAdmin(){
   const valorSabor = $('f-sabor').value;
-  // CORREÇÃO: Evita erro se o usuário desmarcar o sabor
   if(!valorSabor) { $('f-total').textContent = formatarMoeda(0); $('f-valor').value = 0; return; }
-  
   const [sabor, tamanho] = valorSabor.split('|');
   const total = calcularTotal($('f-qtd').value, $('f-oferta').value, $('f-taxa').value, tamanho);
   $('f-total').textContent = formatarMoeda(total); $('f-valor').value = CONFIG.preco[tamanho] || 0;
@@ -218,83 +228,47 @@ $('btn-desbloquear-aba').onclick = ()=>{ const senhaDigitada = $('input-senha-ab
 
 $('btn-salvar-config').onclick = async ()=>{ if($('c-senha-master').value!== CONFIG.senhaMaster){ alert('Senha Master incorreta!'); return; } CONFIG.preco[140] = parseFloat($('c-preco-140').value); CONFIG.preco[250] = parseFloat($('c-preco-250').value); CONFIG={...CONFIG, chave:$('c-chave').value,nome:$('c-nome').value,cidade:$('c-cidade').value,conferente:$('c-conferente').value, senhaVenda:$('c-senha-venda').value, senhaEntrega:$('c-senha-entrega').value, senhaFinanceiro:$('c-senha-financeiro').value, senhaConfig:$('c-senha-config').value, senhaMaster: $('c-nova-senha-master').value || CONFIG.senhaMaster}; await api.salvar('config',CONFIG); alert('Tudo Salvo! ✅'); $('c-senha-master').value=''; $('c-nova-senha-master').value=''; renderSaboresSelect('f-sabor'); renderSaboresSelect('p-sabor'); };
 
-$('btn-gerar-qr').onclick = ()=>{ 
-  // CORREÇÃO: Validação antes de gerar o PIX
-  if (!$('f-sabor').value) { alert("Por favor, selecione um sabor primeiro."); return; }
-  
-  const [sabor, tamanho] = $('f-sabor').value.split('|'); 
-  const total = calcularTotal($('f-qtd').value, $('f-oferta').value, $('f-taxa').value, tamanho); 
-  const txid = 'BENDITO'+Date.now(); 
-  const payload = buildPixPayload({pixKey:CONFIG.chave, merchantName:CONFIG.nome, merchantCity:CONFIG.cidade, amount:total, txid}); 
-  $('qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(payload); 
-  $('pix-copiaecola').value = payload; 
-  $('qr-area').classList.remove('hidden'); 
-};
+$('btn-gerar-qr').onclick = ()=>{ if (!$('f-sabor').value) { alert("Selecione um sabor primeiro."); return; } const [sabor, tamanho] = $('f-sabor').value.split('|'); const total = calcularTotal($('f-qtd').value, $('f-oferta').value, $('f-taxa').value, tamanho); const txid = 'BENDITO'+Date.now(); const payload = buildPixPayload({pixKey:CONFIG.chave, merchantName:CONFIG.nome, merchantCity:CONFIG.cidade, amount:total, txid}); $('qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(payload); $('pix-copiaecola').value = payload; $('qr-area').classList.remove('hidden'); };
 $('btn-copiar-pix').onclick = ()=>navigator.clipboard.writeText($('pix-copiaecola').value);
 
-$('btn-salvar').onclick = async ()=>{ 
-  // CORREÇÃO: Validação antes de salvar
-  if (!$('f-sabor').value) { alert("Por favor, selecione um sabor primeiro."); return; }
-  
-  const [sabor, tamanho] = $('f-sabor').value.split('|'); 
-  const total = calcularTotal($('f-qtd').value, $('f-oferta').value, $('f-taxa').value, tamanho); 
-  VENDAS.unshift({id:Date.now(), nome:$('f-nome').value, whats:$('f-whats').value, sabor:sabor, tamanho:tamanho, endereco:$('f-endereco').value, quantidade:parseFloat($('f-qtd').value), valorUnitario:CONFIG.preco[tamanho], oferta:parseFloat($('f-oferta').value||0), taxa:parseFloat($('f-taxa').value||0), valorTotal:total, status:'pago'}); 
-  await api.salvar('vendas',VENDAS); 
-  ['f-nome','f-whats','f-endereco'].forEach(id=>$(id).value=''); 
-  $('f-sabor').value = ''; // Limpa o sabor
-  $('f-qtd').value=1; $('f-oferta').value=0; $('f-taxa').value=0; 
-  atualizarTotalAdmin(); 
-  $('qr-area').classList.add('hidden'); 
-  alert("Salvo com sucesso!");
-};
+$('btn-salvar').onclick = async ()=>{ if (!$('f-sabor').value) { alert("Selecione um sabor primeiro."); return; } const [sabor, tamanho] = $('f-sabor').value.split('|'); const total = calcularTotal($('f-qtd').value, $('f-oferta').value, $('f-taxa').value, tamanho); VENDAS.unshift({id:Date.now(), nome:$('f-nome').value, whats:$('f-whats').value, sabor:sabor, tamanho:tamanho, endereco:$('f-endereco').value, quantidade:parseFloat($('f-qtd').value), valorUnitario:CONFIG.preco[tamanho], oferta:parseFloat($('f-oferta').value||0), taxa:parseFloat($('f-taxa').value||0), valorTotal:total, status:'pago'}); await api.salvar('vendas',VENDAS); ['f-nome','f-whats','f-endereco'].forEach(id=>$(id).value=''); $('f-sabor').value = ''; $('f-qtd').value=1; $('f-oferta').value=0; $('f-taxa').value=0; atualizarTotalAdmin(); $('qr-area').classList.add('hidden'); alert("Salvo com sucesso!"); };
 $('btn-compartilhar-link').onclick = ()=>window.open('https://wa.me/?text='+encodeURIComponent('Peça seu Bolo de Pote: '+$('link-cliente').value));
 
 document.querySelectorAll('.tab-btn').forEach(btn=>btn.onclick=()=>mudarAba(btn.dataset.tab));
 function mudarAba(tab){ document.querySelectorAll('[id^="tab-"]').forEach(el=>el.classList.add('hidden')); $('lock-screen').classList.add('hidden'); abaAtualDesbloqueada = tab; $('lock-screen').classList.remove('hidden'); $('lock-text').textContent = `Digite a senha da equipe de ${tab}`; $('input-senha-aba').value = ''; $('erro-senha-aba').classList.add('hidden'); document.querySelectorAll('.tab-btn').forEach(b=>b.classList.replace('tab-active','tab-inactive')); document.querySelector(`[data-tab="${tab}"]`).classList.replace('tab-inactive','tab-active'); }
 
 function montarStorefront(){
-  $('storefront-app').classList.remove('hidden'); $('header-subtitle').textContent = 'Faça seu pedido'; renderSaboresSelect('p-sabor');
-  function atualizarTotalCliente(){ 
+$('storefront-app').classList.remove('hidden'); $('header-subtitle').textContent = 'Faça seu pedido'; renderSaboresSelect('p-sabor');
+  function atualizarTotalCliente(){
     const valorSabor = $('p-sabor').value;
-    // CORREÇÃO: Evita erro se o usuário desmarcar o sabor
     if(!valorSabor) { $('p-total').textContent = formatarMoeda(0); return; }
-    
-    const [sabor, tamanho] = valorSabor.split('|'); 
-    const total = calcularTotal($('p-qtd').value, $('p-oferta').value, $('p-taxa').value, tamanho); 
-    $('p-total').textContent = formatarMoeda(total); 
+    const [sabor, tamanho] = valorSabor.split('|');
+    const total = calcularTotal($('p-qtd').value, $('p-oferta').value, $('p-taxa').value, tamanho);
+    $('p-total').textContent = formatarMoeda(total);
   }
   ['p-qtd','p-oferta','p-taxa','p-sabor'].forEach(id=>{const el=$(id); if(el) el.addEventListener('input', atualizarTotalCliente)});
-  
-  $('btn-fazer-pedido').onclick = ()=>{ 
-    // CORREÇÃO: Validação antes de gerar pedido
-    if (!$('p-sabor').value) { alert("Por favor, selecione um sabor primeiro."); return; }
-    
-    const [sabor, tamanho] = $('p-sabor').value.split('|'); 
-    const total = calcularTotal($('p-qtd').value, $('p-oferta').value, $('p-taxa').value, tamanho); 
-    const txid = 'BENDITO'+Date.now(); 
-    const payload = buildPixPayload({pixKey:CONFIG.chave, merchantName:CONFIG.nome, merchantCity:CONFIG.cidade, amount:total, txid}); 
-    $('p-qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(payload); 
-    $('p-pix-copiaecola').value = payload; 
-    $('p-qr-area').classList.remove('hidden'); 
-    
-    // CORREÇÃO: Removida a propriedade 'taxa' duplicada
+
+  $('btn-fazer-pedido').onclick = ()=>{
+    if (!$('p-sabor').value) { alert("Selecione um sabor primeiro."); return; }
+    const [sabor, tamanho] = $('p-sabor').value.split('|');
+    const total = calcularTotal($('p-qtd').value, $('p-oferta').value, $('p-taxa').value, tamanho);
+    const txid = 'BENDITO'+Date.now();
+    const payload = buildPixPayload({pixKey:CONFIG.chave, merchantName:CONFIG.nome, merchantCity:CONFIG.cidade, amount:total, txid});
+    $('p-qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(payload);
+    $('p-pix-copiaecola').value = payload;
+    $('p-qr-area').classList.remove('hidden');
+
     PEDIDO_ATUAL = {
-      nome:$('p-nome').value, 
-      whats:$('p-whats').value, 
-      sabor:sabor, 
-      tamanho:tamanho, 
-      endereco:$('p-endereco').value, 
-      quantidade:parseFloat($('p-qtd').value), 
-      valorUnitario:CONFIG.preco[tamanho], 
-      oferta:parseFloat($('p-oferta').value||0), 
-      taxa:parseFloat($('p-taxa').value||0),
-      valorTotal:total, 
-      id:Date.now(), 
-      status:'pendente'
+      nome:$('p-nome').value, whats:$('p-whats').value, sabor:sabor, tamanho:tamanho,
+      endereco:$('p-endereco').value, quantidade:parseFloat($('p-qtd').value),
+      valorUnitario:CONFIG.preco[tamanho], oferta:parseFloat($('p-oferta').value||0),
+      taxa:parseFloat($('p-taxa').value||0), valorTotal:total, id:Date.now(), status:'pendente'
     };
     VENDAS.unshift(PEDIDO_ATUAL); api.salvar('vendas',VENDAS);
   };
+
   $('btn-copiar-pix-cliente').onclick = ()=>navigator.clipboard.writeText($('p-pix-copiaecola').value);
+
   $('btn-enviar-comprovante').onclick = ()=>{
     let numero = CONFIG.conferente.replace(/\D/g,''); if(numero.length<=11) numero='55'+numero;
     const msg = `🚨 PEDIDO NOVO 🚨\n\nNome: ${PEDIDO_ATUAL.nome}\nSabor: ${PEDIDO_ATUAL.sabor} - ${PEDIDO_ATUAL.tamanho}ml\nQtd: ${PEDIDO_ATUAL.quantidade} x ${formatarMoeda(PEDIDO_ATUAL.valorUnitario)}\nTotal: ${formatarMoeda(PEDIDO_ATUAL.valorTotal)}\n\n⚠️ *ENVIANDO COMPROVANTE* ⚠️`;
@@ -305,4 +279,4 @@ function montarStorefront(){
 init();
 </script>
 </body>
-</html>
+</html>  
