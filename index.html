@@ -166,16 +166,23 @@ const calcularTotal = (qtd, oferta, taxa, tamanho) => ((qtd||0) * (CONFIG.preco[
 
 async function init(){
   let configDoFirebase = await api.buscar('config');
-  // FORÇA USAR SÓ OS 3 SABORES NOVOS
-  if(!configDoFirebase){
-    await api.salvar('config', CONFIG_PADRAO);
-    CONFIG = CONFIG_PADRAO;
-  } else {
-    CONFIG = {...CONFIG_PADRAO,...configDoFirebase, sabores: CONFIG_PADRAO.sabores};
-  }
+  // FORÇA USAR SÓ OS 3 SABORES NOVOS E ATUALIZAR SEMPRE
+  CONFIG = {...CONFIG_PADRAO, ...configDoFirebase, sabores: CONFIG_PADRAO.sabores};
 
-  if(isCliente){ $('admin-app').classList.add('hidden'); montarStorefront(); } else { $('admin-app').classList.remove('hidden'); renderAdmin(); }
+  if(isCliente){ 
+    $('admin-app').classList.add('hidden'); 
+    montarStorefront(); 
+  } else { 
+    $('admin-app').classList.remove('hidden'); 
+    renderAdmin(); 
+  }
   api.escutar('vendas', (dados)=>{VENDAS = dados || []; if(!isCliente){renderAdmin();}});
+  api.escutar('config', (dados)=>{ // NOVO: Escuta mudança de preço em tempo real
+    if(dados){ CONFIG = {...CONFIG_PADRAO, ...dados, sabores: CONFIG_PADRAO.sabores}; }
+    renderSaboresSelect('f-sabor'); 
+    renderSaboresSelect('p-sabor');
+    atualizarTotalAdmin();
+  });
   $('loading').classList.add('hidden');
 }
 
@@ -194,9 +201,11 @@ function renderSaboresConfig(){
   }
   document.querySelectorAll('.sabor-toggle').forEach(el=>{
     el.onclick = async ()=>{
-      CONFIG.sabores[el.dataset.sabor][el.dataset.tam] =!CONFIG.sabores[el.dataset.sabor][el.dataset.tam];
-      renderSaboresConfig(); renderSaboresSelect('f-sabor'); renderSaboresSelect('p-sabor');
-      await api.salvar('config', CONFIG);
+      el.classList.toggle('off'); // já muda visual na hora
+      CONFIG.sabores[el.dataset.sabor][el.dataset.tam] = !CONFIG.sabores[el.dataset.sabor][el.dataset.tam];
+      await api.salvar('config', CONFIG); // salva no firebase
+      renderSaboresSelect('f-sabor'); // atualiza select do adm
+      renderSaboresSelect('p-sabor'); // atualiza select do cliente
     }
   });
 }
